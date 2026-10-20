@@ -9,7 +9,7 @@
   /** Página "Metodologia": conteúdo estático + fatos calculados dos dados */
   function registerMethod() {
     ODS.router.register('metodo', {
-      group: 'Sobre', title: 'Metodologia', sub: 'Fontes, tratamento, métodos e limitações',
+      title: 'Metodologia', sub: 'Fontes, tratamento, métodos e limitações',
       render() {
         const el = $('#methodFacts'); if (!el) return;
         const P = D.period('');
@@ -53,6 +53,7 @@
     $('#anoFilter').addEventListener('change', e => S.set({ ano: e.target.value }));
 
     // Páginas
+    ODS.pages.story.init();
     ODS.pages.exec.init();
     ODS.pages.panels.init();
     ODS.pages.geo.init();

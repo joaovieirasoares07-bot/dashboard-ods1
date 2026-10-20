@@ -124,7 +124,7 @@ ODS.pages.stats = (() => {
     $('#boxMetric').addEventListener('change', () => renderBox(S.period()));
     seg('data-stats-mode', v => { mode = v; renderTable(S.period(), S.munis()); });
     seg('data-corr-mode', v => { corrMode = v; renderCorr(S.period(), S.munis()); renderScatter(S.period(), S.munis()); });
-    ODS.router.register('stats', { group: 'Análises', title: 'Análise Estatística', sub: () => `${S.scopeLabel()} · ${S.period().label}`, render });
+    ODS.router.register('stats', { title: 'Análise estatística', sub: () => `${S.scopeLabel()} · ${S.period().label}`, render });
   }
   return { init };
 })();

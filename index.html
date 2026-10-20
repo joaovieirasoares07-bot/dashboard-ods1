@@ -235,8 +235,8 @@ main { flex: 1; width: 100%; max-width: 1440px; margin: 0 auto; padding: 24px 32
 
 /* ---------- Páginas e transição ---------- */
 .page { display: none; }
-.page.active { display: flex; flex-direction: column; gap: var(--gap); animation: page-in .32s var(--ease) both; }
-@keyframes page-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.page.active { display: flex; flex-direction: column; gap: var(--gap); animation: page-in .2s var(--ease) both; }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } } /* transição discreta: só opacidade */
 
 .grid { display: grid; gap: var(--gap); }
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -584,6 +584,212 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
   .corr .c { min-height: 34px; }
 }
 
+/* ==== story.css ==== */
+/* =====================================================================
+   NARRATIVA E APRESENTAÇÃO
+   trilha de etapas · faixa "O que observar" · navegação entre etapas ·
+   Introdução · Conclusões · modo apresentação (projetor)
+   ===================================================================== */
+
+/* ---------- Menu como trilha numerada ---------- */
+.step-n {
+  flex: none !important; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 11.5px; font-weight: 700;
+  border: 1.5px solid rgba(255,255,255,.35); color: rgba(255,255,255,.85);
+}
+.nav-item[aria-selected="true"] .step-n { background: var(--gold); border-color: var(--gold); color: #3A1A0A; }
+
+/* ---------- Barra de progresso no cabeçalho ---------- */
+.progress { list-style: none; display: flex; gap: 4px; margin: 10px 0 0; padding: 0; }
+.progress button { display: block; width: 26px; height: 5px; border: 0; padding: 0; border-radius: 99px; background: var(--line-strong); transition: background-color var(--dur); }
+.progress button.done { background: color-mix(in srgb, var(--brand) 45%, var(--line-strong)); }
+.progress button.now { background: var(--brand); width: 38px; }
+.progress button:hover { background: var(--gold); }
+
+/* ---------- Faixa "O que observar" ---------- */
+.guide {
+  display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 2fr); gap: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.guide:empty { display: none; }
+.guide-q { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; background: var(--brand); color: #fff; }
+.guide-q .ic { width: 22px; height: 22px; margin-top: 2px; opacity: .9; }
+.guide-q p { font-family: var(--font-serif); font-size: 17px; font-weight: 600; line-height: 1.35; color: #fff; }
+.guide-k { display: flex; align-items: center; gap: 6px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; opacity: .8; margin-bottom: 4px; }
+.guide-k .ic { width: 14px; height: 14px; }
+.guide-obs { padding: 14px 18px; }
+.guide-obs .guide-k { color: var(--gold-text); opacity: 1; }
+.guide-obs ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+.guide-obs li { font-size: 13.8px; line-height: 1.55; color: var(--ink-2); }
+.guide-obs li::marker { color: var(--gold); }
+.guide-obs strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ---------- Navegação entre etapas (rodapé de cada página) ---------- */
+.story-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; margin-top: 6px; padding-top: 18px; border-top: 1px solid var(--line); }
+.sn { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 14px; text-align: left; color: var(--ink); box-shadow: var(--shadow-sm); transition: border-color var(--dur), box-shadow var(--dur); }
+.sn:hover { border-color: var(--brand); box-shadow: var(--shadow-md); }
+.sn.next { justify-self: end; text-align: right; background: var(--brand); border-color: var(--brand); color: #fff; }
+.sn.next .sn-dir { color: rgba(255,255,255,.8); }
+.sn.prev { justify-self: start; }
+.sn > span { display: flex; flex-direction: column; min-width: 0; }
+.sn-dir { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 600; }
+.sn-title { font-weight: 600; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sn-count { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* ---------- Introdução ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 24px; align-items: stretch;
+  background: linear-gradient(125deg, var(--surface) 30%, var(--brand-soft)); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+.hero-kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+.hero h2 { font-size: 30px; line-height: 1.18; margin: 8px 0 14px; letter-spacing: -.01em; }
+.hero-q { display: flex; gap: 10px; align-items: flex-start; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); max-width: 760px; }
+.hero-q .ic { width: 22px; height: 22px; color: var(--gold); flex: none; margin-top: 2px; }
+.hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+.hero-hint { font-size: 12.5px; color: var(--ink-3); }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 10px; padding: 11px 18px; background: var(--brand); color: #fff; font-weight: 600; font-size: 14.5px; box-shadow: var(--shadow-md); }
+.btn-primary:hover { background: var(--brand-strong); }
+.ods-badge { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; border-radius: 14px; padding: 18px; color: #fff;
+  background: #E5243B; /* vermelho oficial do ODS 1 */ box-shadow: var(--shadow-md); }
+.ods-n { font-family: var(--font-sans); font-size: 64px; font-weight: 700; line-height: .9; }
+.ods-name { font-size: 18px; font-weight: 700; line-height: 1.15; text-transform: uppercase; letter-spacing: .02em; }
+.ods-txt { font-size: 12.5px; line-height: 1.45; background: rgba(0, 0, 0, .22); padding: 7px 9px; border-radius: 8px; margin-top: 4px; }
+
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.intro-card h3 { font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.intro-card p { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+.ticks { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.ticks li { position: relative; padding-left: 20px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.ticks li::before { content: ""; position: absolute; left: 2px; top: .55em; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); }
+.ticks.muted li::before { background: var(--ink-3); }
+.ticks b { color: var(--ink); }
+.route { margin: 0; padding-left: 0; list-style: none; counter-reset: r 1; display: flex; flex-direction: column; gap: 3px; }
+.route li { counter-increment: r; }
+.route button { display: flex; gap: 10px; align-items: center; width: 100%; border: 0; background: none; padding: 5px 4px; border-radius: 7px; font-size: 13.5px; color: var(--ink-2); text-align: left; }
+.route button::before { content: counter(r); width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: var(--surface-3); color: var(--ink-2); flex: none; }
+.route button:hover { background: var(--surface-2); color: var(--ink); }
+
+.sources { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.source { display: flex; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
+.src-ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--brand-soft); color: var(--brand); }
+.source h3 { font-size: 15px; }
+.src-org { font-size: 11.5px; color: var(--ink-3); margin: 2px 0 6px !important; }
+.source p { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+.src-meta { margin-top: 8px !important; font-size: 12px !important; font-weight: 600; color: var(--gold-text) !important; }
+
+.grid-intro { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.intro-munis { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: center; }
+.muni-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.muni-list li { display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: 8px; align-items: baseline; }
+.muni-list .dot { width: 10px; height: 10px; border-radius: 50%; }
+.muni-list .mn { font-weight: 600; font-size: 13.5px; }
+.muni-list .mm { grid-column: 2; font-size: 11.5px; color: var(--ink-3); }
+
+.timeline { list-style: none; margin: 0; padding: 0 0 0 4px; position: relative; display: flex; flex-direction: column; gap: 12px; }
+.timeline::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--line-strong); }
+.timeline li { position: relative; display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 10px; padding-left: 22px; font-size: 13px; }
+.timeline li::before { content: ""; position: absolute; left: 0; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2.5px solid var(--brand); }
+.timeline li.warn::before { border-color: var(--gold); background: var(--gold); }
+.tl-date { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.tl-txt { color: var(--ink-2); line-height: 1.45; }
+
+/* ---------- Conclusões ---------- */
+.concl-lead { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-radius: var(--radius); background: var(--good-soft); border: 1px solid var(--line); }
+.concl-lead .ic { width: 22px; height: 22px; color: var(--good); margin-top: 1px; }
+.concl-lead p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+.concl-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.concl { display: grid; grid-template-columns: 38px minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: 14px; row-gap: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow-sm); }
+.concl-num { grid-row: 1 / span 2; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-serif); font-size: 18px; font-weight: 700; background: var(--brand); color: #fff; }
+.concl-body h2 { font-size: 16.5px; line-height: 1.3; margin-bottom: 6px; }
+.concl-body p { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin-bottom: 6px; }
+.concl-fig { grid-column: 2; align-self: end; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.concl-ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); flex: none; }
+.concl-ic .ic { width: 16px; height: 16px; }
+.concl-fig b { font-size: 20px; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.concl-fig span:last-child { font-size: 12px; color: var(--ink-3); flex: 1 1 140px; }
+.closing { margin: 0; display: flex; gap: 14px; align-items: flex-start; padding: 22px 24px; border-radius: var(--radius-lg); background: var(--brand); color: #fff; box-shadow: var(--shadow-md); }
+.closing .ic { width: 28px; height: 28px; flex: none; opacity: .85; }
+.closing p { font-family: var(--font-serif); font-size: 18px; line-height: 1.55; color: #fff; }
+.closing strong { color: #FFE2A8; }
+:root[data-theme-effective="dark"] .closing, :root[data-theme-effective="dark"] .guide-q, :root[data-theme-effective="dark"] .sn.next,
+:root[data-theme-effective="dark"] .concl-num, :root[data-theme-effective="dark"] .btn-primary { background: #8E2A2A; border-color: #8E2A2A; }
+
+/* ---------- Painéis originais: 6 cards no Panorama ---------- */
+.cards.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* ---------- Modo apresentação (tecla F) ---------- */
+.present-bar { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(28, 35, 48, .92); color: #fff; box-shadow: var(--shadow-lg); backdrop-filter: blur(6px); }
+.present-bar[hidden] { display: none; }
+.pb-btn { width: 38px; height: 38px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(255,255,255,.1); color: #fff; }
+.pb-btn:hover { background: rgba(255,255,255,.22); }
+.pb-label { font-size: 13px; font-weight: 600; padding: 0 10px; white-space: nowrap; }
+body.presenting .app { grid-template-columns: minmax(0, 1fr); }
+body.presenting .sidebar, body.presenting .site-foot, body.presenting .field-label kbd { display: none; }
+body.presenting .topbar { position: static; padding: 18px 40px 12px; }
+body.presenting main { max-width: 1600px; padding: 20px 40px 90px; }
+body.presenting .page-heading h1 { font-size: 32px; }
+body.presenting .eyebrow { font-size: 13px; }
+body.presenting .page-sub { font-size: 15px; }
+body.presenting .guide-q p { font-size: 22px; }
+body.presenting .guide-obs li { font-size: 17px; }
+body.presenting .panel-head h2 { font-size: 21px; }
+body.presenting .sub { font-size: 14.5px; }
+body.presenting .kpi-label { font-size: 15px; }
+body.presenting .kpi-value { font-size: 36px; }
+body.presenting .kpi-delta, body.presenting .chip { font-size: 14px; }
+body.presenting .kpi-foot { font-size: 13px; }
+body.presenting .chartwrap { height: 360px; }
+body.presenting table { font-size: 15px; }
+body.presenting .hero h2 { font-size: 38px; }
+body.presenting .hero-q, body.presenting .ticks li, body.presenting .source p, body.presenting .intro-card p, body.presenting .route button { font-size: 16px; }
+body.presenting .concl-body h2 { font-size: 20px; }
+body.presenting .concl-body p { font-size: 16px; }
+body.presenting .concl-fig b { font-size: 26px; }
+body.presenting .closing p { font-size: 22px; }
+body.presenting .note { font-size: 14px; }
+body.presenting .insight p, body.presenting .insight h3 { font-size: 15px; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1180px) {
+  .concl-list { grid-template-columns: minmax(0, 1fr); }
+  .grid-intro { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 999px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding: 20px; }
+  .ods-badge { flex-direction: row; align-items: center; gap: 14px; }
+  .ods-n { font-size: 46px; }
+  .ods-txt { display: none; }
+  .hero h2 { font-size: 23px; }
+  .grid-3, .sources { grid-template-columns: minmax(0, 1fr); }
+  .guide { grid-template-columns: minmax(0, 1fr); }
+  .cards.cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .step-n { width: 20px; height: 20px; font-size: 11px; }
+  .progress { display: none; }
+}
+@media (max-width: 640px) {
+  .intro-munis { grid-template-columns: minmax(0, 1fr); }
+  .story-nav { grid-template-columns: 1fr 1fr; }
+  .sn-count { display: none; }
+  .sn { padding: 9px 10px; }
+  .sn-title { white-space: normal; font-size: 12.5px; }
+  .hero-hint { display: none; }
+  .concl { grid-template-columns: 30px minmax(0, 1fr); padding: 14px; }
+  .concl-num { width: 30px; height: 30px; font-size: 15px; }
+  .concl-fig { grid-column: 1 / -1; }
+  .closing { padding: 18px; } .closing p { font-size: 16px; }
+}
+
+/* ---------- Metodologia: camada "Em resumo" ---------- */
+.m-simple { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
+.m-simple div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.m-simple h3 { font-family: var(--font-sans); font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: var(--ink); }
+.m-simple h3 .ic { width: 15px; height: 15px; color: var(--brand); }
+.m-simple p { font-size: 13px !important; line-height: 1.55 !important; }
+.m-divider { display: flex; align-items: center; gap: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 6px 0 -4px; }
+.m-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+@media (max-width: 1180px) { .m-simple { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .m-simple { grid-template-columns: minmax(0, 1fr); } }
+
 /* ==== print.css ==== */
 /* =====================================================================
    IMPRESSÃO / PDF — todas as páginas, uma por folha, A4 paisagem.
@@ -594,7 +800,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
   :root { --bg: #fff; }
   body { background: #fff; font-size: 12px; }
   .app { display: block; }
-  .sidebar, .filters, .skip-link, .map-zoom, .btn-link, .seg, .site-foot a, .dialog, .map-tip, .select-wrap { display: none !important; }
+  .sidebar, .filters, .skip-link, .story-nav, .present-bar, .progress, .hero-actions, .map-zoom, .btn-link, .seg, .site-foot a, .dialog, .map-tip, .select-wrap { display: none !important; }
   .topbar { position: static; padding: 0 0 10px; border: 0; background: none; backdrop-filter: none; }
   .print-info { display: block; font-size: 12px; color: var(--ink-2); width: 100%; }
   main { padding: 0; max-width: none; }
@@ -612,7 +818,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><!-- Ícones: Lucide (ISC) --><symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></symbol><symbol id="i-arrow-down-right" viewBox="0 0 24 24"><path d="m7 7 10 10" /> <path d="M17 7v10H7" /></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /> <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /> <rect width="20" height="14" x="2" y="6" rx="2" /></symbol><symbol id="i-building-2" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></symbol><symbol id="i-calendar-range" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" /> <path d="M16 2v4" /> <path d="M3 10h18" /> <path d="M8 2v4" /> <path d="M17 14h-6" /> <path d="M13 18H7" /> <path d="M7 14h.01" /> <path d="M17 18h.01" /></symbol><symbol id="i-chart-no-axes-column" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10" /> <line x1="12" x2="12" y1="20" y2="4" /> <line x1="6" x2="6" y1="20" y2="14" /></symbol><symbol id="i-chart-scatter" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /> <circle cx="18.5" cy="5.5" r=".5" fill="currentColor" /> <circle cx="11.5" cy="11.5" r=".5" fill="currentColor" /> <circle cx="7.5" cy="16.5" r=".5" fill="currentColor" /> <circle cx="17.5" cy="14.5" r=".5" fill="currentColor" /> <path d="M3 3v16a2 2 0 0 0 2 2h16" /></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></symbol><symbol id="i-git-compare" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /> <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /> <path d="m2 16 6 6" /> <circle cx="16" cy="9" r="2.9" /> <circle cx="6" cy="5" r="3" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M10 8h.01" /> <path d="M12 12h.01" /> <path d="M14 8h.01" /> <path d="M16 12h.01" /> <path d="M18 8h.01" /> <path d="M6 8h.01" /> <path d="M7 16h10" /> <path d="M8 12h.01" /> <rect width="20" height="16" x="2" y="4" rx="2" /></symbol><symbol id="i-layout-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></symbol><symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /> <path d="M15 5.764v15" /> <path d="M9 3.236v15" /></symbol><symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="M12 5v14" /></symbol><symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /> <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" /> <rect x="6" y="14" width="12" height="8" rx="1" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /></symbol><symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /> <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /> <path d="M7 21h10" /> <path d="M12 3v18" /> <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" /></symbol><symbol id="i-sigma" viewBox="0 0 24 24"><path d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /> <path d="M20 3v4" /> <path d="M22 5h-4" /> <path d="M4 17v2" /> <path d="M5 18H3" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></symbol><symbol id="i-trending-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7" /> <polyline points="16 17 22 17 22 11" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /> <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /> <path d="M4 22h16" /> <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /> <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /> <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></symbol><symbol id="i-users-round" viewBox="0 0 24 24"><path d="M18 21a8 8 0 0 0-16 0" /> <circle cx="10" cy="8" r="5" /> <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol></svg>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><!-- Ícones: Lucide (ISC) --><symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></symbol><symbol id="i-arrow-down-right" viewBox="0 0 24 24"><path d="m7 7 10 10" /> <path d="M17 7v10H7" /></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14" /> <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol><symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /> <rect width="20" height="14" x="2" y="6" rx="2" /></symbol><symbol id="i-building-2" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></symbol><symbol id="i-calendar-check" viewBox="0 0 24 24"><path d="M8 2v4" /> <path d="M16 2v4" /> <rect width="18" height="18" x="3" y="4" rx="2" /> <path d="M3 10h18" /> <path d="m9 16 2 2 4-4" /></symbol><symbol id="i-calendar-range" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" /> <path d="M16 2v4" /> <path d="M3 10h18" /> <path d="M8 2v4" /> <path d="M17 14h-6" /> <path d="M13 18H7" /> <path d="M7 14h.01" /> <path d="M17 18h.01" /></symbol><symbol id="i-chart-no-axes-column" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10" /> <line x1="12" x2="12" y1="20" y2="4" /> <line x1="6" x2="6" y1="20" y2="14" /></symbol><symbol id="i-chart-scatter" viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /> <circle cx="18.5" cy="5.5" r=".5" fill="currentColor" /> <circle cx="11.5" cy="11.5" r=".5" fill="currentColor" /> <circle cx="7.5" cy="16.5" r=".5" fill="currentColor" /> <circle cx="17.5" cy="14.5" r=".5" fill="currentColor" /> <path d="M3 3v16a2 2 0 0 0 2 2h16" /></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="i-circle-check-big" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335" /> <path d="m9 11 3 3L22 4" /></symbol><symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></symbol><symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /> <line x1="4" x2="4" y1="22" y2="15" /></symbol><symbol id="i-git-compare" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /> <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /> <path d="m2 16 6 6" /> <circle cx="16" cy="9" r="2.9" /> <circle cx="6" cy="5" r="3" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M10 8h.01" /> <path d="M12 12h.01" /> <path d="M14 8h.01" /> <path d="M16 12h.01" /> <path d="M18 8h.01" /> <path d="M6 8h.01" /> <path d="M7 16h10" /> <path d="M8 12h.01" /> <rect width="20" height="16" x="2" y="4" rx="2" /></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22" /> <line x1="6" x2="6" y1="18" y2="11" /> <line x1="10" x2="10" y1="18" y2="11" /> <line x1="14" x2="14" y1="18" y2="11" /> <line x1="18" x2="18" y1="18" y2="11" /> <polygon points="12 2 20 7 4 7" /></symbol><symbol id="i-layout-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /></symbol><symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /> <path d="M15 5.764v15" /> <path d="M9 3.236v15" /></symbol><symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" /></symbol><symbol id="i-milestone" viewBox="0 0 24 24"><path d="M12 13v8" /> <path d="M12 3v3" /> <path d="M4 6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h13a2 2 0 0 0 1.152-.365l3.424-2.317a1 1 0 0 0 0-1.635l-3.424-2.318A2 2 0 0 0 17 6z" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="M12 5v14" /></symbol><symbol id="i-presentation" viewBox="0 0 24 24"><path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /></symbol><symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /> <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" /> <rect x="6" y="14" width="12" height="8" rx="1" /></symbol><symbol id="i-quote" viewBox="0 0 24 24"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" /> <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /></symbol><symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /> <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /> <path d="M7 21h10" /> <path d="M12 3v18" /> <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" /></symbol><symbol id="i-sigma" viewBox="0 0 24 24"><path d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /> <path d="M20 3v4" /> <path d="M22 5h-4" /> <path d="M4 17v2" /> <path d="M5 18H3" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="6" /> <circle cx="12" cy="12" r="2" /></symbol><symbol id="i-trending-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7" /> <polyline points="16 17 22 17 22 11" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /> <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /> <path d="M4 22h16" /> <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /> <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /> <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></symbol><symbol id="i-users-round" viewBox="0 0 24 24"><path d="M18 21a8 8 0 0 0-16 0" /> <circle cx="10" cy="8" r="5" /> <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol></svg>
 <a class="skip-link" href="#main">Pular para o conteúdo</a>
 
 <div class="app">
@@ -629,26 +835,27 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
       </button>
     </div>
 
-    <nav class="nav" role="tablist" aria-label="Páginas" aria-orientation="vertical">
-      <p class="nav-group">Visão executiva</p>
-      <button class="nav-item" role="tab" id="tab-exec" aria-controls="page-exec" data-page="exec"><svg class="ic"><use href="#i-house"/></svg><span>Resumo Executivo</span><kbd>1</kbd></button>
-      <p class="nav-group">Painéis</p>
-      <button class="nav-item" role="tab" id="tab-geral" aria-controls="page-geral" data-page="geral"><svg class="ic"><use href="#i-layout-dashboard"/></svg><span>Visão Geral</span><kbd>2</kbd></button>
-      <button class="nav-item" role="tab" id="tab-vuln" aria-controls="page-vuln" data-page="vuln"><svg class="ic"><use href="#i-users"/></svg><span>Vulnerabilidade Social</span><kbd>3</kbd></button>
-      <button class="nav-item" role="tab" id="tab-trab" aria-controls="page-trab" data-page="trab"><svg class="ic"><use href="#i-briefcase"/></svg><span>Mercado de Trabalho</span><kbd>4</kbd></button>
-      <button class="nav-item" role="tab" id="tab-geo" aria-controls="page-geo" data-page="geo"><svg class="ic"><use href="#i-map"/></svg><span>Vulnerabilidade Geográfica</span><kbd>5</kbd></button>
-      <p class="nav-group">Análises</p>
-      <button class="nav-item" role="tab" id="tab-comp" aria-controls="page-comp" data-page="comp"><svg class="ic"><use href="#i-git-compare"/></svg><span>Comparações</span><kbd>6</kbd></button>
-      <button class="nav-item" role="tab" id="tab-integ" aria-controls="page-integ" data-page="integ"><svg class="ic"><use href="#i-activity"/></svg><span>Análise Integrada</span><kbd>7</kbd></button>
-      <button class="nav-item" role="tab" id="tab-stats" aria-controls="page-stats" data-page="stats"><svg class="ic"><use href="#i-sigma"/></svg><span>Análise Estatística</span><kbd>8</kbd></button>
-      <p class="nav-group">Sobre</p>
-      <button class="nav-item" role="tab" id="tab-metodo" aria-controls="page-metodo" data-page="metodo"><svg class="ic"><use href="#i-book-open"/></svg><span>Metodologia</span><kbd>9</kbd></button>
+    <nav class="nav" role="tablist" aria-label="Roteiro da apresentação" aria-orientation="vertical">
+      <p class="nav-group">Roteiro da apresentação</p>
+      <button class="nav-item" role="tab" id="tab-intro" aria-controls="page-intro" data-page="intro"><span class="step-n">1</span><span>Introdução</span><kbd>1</kbd></button>
+      <button class="nav-item" role="tab" id="tab-geral" aria-controls="page-geral" data-page="geral"><span class="step-n">2</span><span>Panorama 2021–2026</span><kbd>2</kbd></button>
+      <button class="nav-item" role="tab" id="tab-vuln" aria-controls="page-vuln" data-page="vuln"><span class="step-n">3</span><span>Vulnerabilidade social</span><kbd>3</kbd></button>
+      <button class="nav-item" role="tab" id="tab-trab" aria-controls="page-trab" data-page="trab"><span class="step-n">4</span><span>Mercado de trabalho</span><kbd>4</kbd></button>
+      <button class="nav-item" role="tab" id="tab-comp" aria-controls="page-comp" data-page="comp"><span class="step-n">5</span><span>Comparação entre municípios</span><kbd>5</kbd></button>
+      <button class="nav-item" role="tab" id="tab-geo" aria-controls="page-geo" data-page="geo"><span class="step-n">6</span><span>Mapa de vulnerabilidade</span><kbd>6</kbd></button>
+      <button class="nav-item" role="tab" id="tab-integ" aria-controls="page-integ" data-page="integ"><span class="step-n">7</span><span>Análise integrada</span><kbd>7</kbd></button>
+      <button class="nav-item" role="tab" id="tab-concl" aria-controls="page-concl" data-page="concl"><span class="step-n">8</span><span>Conclusões</span><kbd>8</kbd></button>
+      <p class="nav-group">Apêndice</p>
+      <button class="nav-item" role="tab" id="tab-exec" aria-controls="page-exec" data-page="exec"><svg class="ic"><use href="#i-layout-dashboard"/></svg><span>Painel resumo</span><kbd>9</kbd></button>
+      <button class="nav-item" role="tab" id="tab-stats" aria-controls="page-stats" data-page="stats"><svg class="ic"><use href="#i-sigma"/></svg><span>Análise estatística</span></button>
+      <button class="nav-item" role="tab" id="tab-metodo" aria-controls="page-metodo" data-page="metodo"><svg class="ic"><use href="#i-book-open"/></svg><span>Metodologia</span></button>
     </nav>
 
     <div class="sidebar-foot">
       <button class="side-btn" type="button" data-action="theme" aria-label="Alternar modo escuro">
         <svg class="ic ic-sun"><use href="#i-sun"/></svg><svg class="ic ic-moon"><use href="#i-moon"/></svg><span class="theme-label">Modo escuro</span><kbd>D</kbd>
       </button>
+      <button class="side-btn" type="button" data-action="present"><svg class="ic"><use href="#i-presentation"/></svg><span>Modo apresentação</span><kbd>F</kbd></button>
       <button class="side-btn" type="button" data-action="help"><svg class="ic"><use href="#i-keyboard"/></svg><span>Atalhos de teclado</span><kbd>?</kbd></button>
       <button class="side-btn" type="button" data-action="print"><svg class="ic"><use href="#i-printer"/></svg><span>Imprimir / PDF</span><kbd>P</kbd></button>
     </div>
@@ -661,6 +868,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
         <p class="eyebrow" id="pageEyebrow">Visão executiva</p>
         <h1 id="pageTitle">Resumo Executivo</h1>
         <p class="page-sub" id="pageSub"></p>
+        <ol class="progress" id="storyProgress" aria-label="Progresso da apresentação"></ol>
       </div>
       <div class="filters" role="group" aria-label="Filtros">
         <label class="field">
@@ -677,7 +885,96 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
     <main id="main" tabindex="-1">
 
-      <!-- ===== 1. RESUMO EXECUTIVO ===== -->
+      <!-- ===== 1. INTRODUÇÃO ===== -->
+      <section class="page" id="page-intro" role="tabpanel" aria-labelledby="tab-intro" data-title="Introdução">
+        <!-- =====================================================================
+     Introdução — responde: o que é o ODS 1, objetivo do dashboard, dados
+     usados, municípios e período. Mapa e números são preenchidos em
+     js/pages/story-pages.js.
+     ===================================================================== -->
+<div class="hero">
+  <div class="hero-text">
+    <p class="hero-kicker">Agenda 2030 · Objetivo de Desenvolvimento Sustentável 1</p>
+    <h2>Pobreza, vulnerabilidade social e emprego formal em 7 municípios da Grande São Paulo</h2>
+    <p class="hero-q"><svg class="ic"><use href="#i-quote"/></svg><span><strong>Pergunta do trabalho:</strong> como evoluíram a vulnerabilidade social e o emprego formal entre 2021 e 2026 — e onde estão os maiores desafios?</span></p>
+    <div class="hero-actions">
+      <button class="btn-primary" type="button" data-goto="geral">Começar <svg class="ic"><use href="#i-arrow-right"/></svg></button>
+      <span class="hero-hint">Use <kbd>←</kbd> <kbd>→</kbd> para avançar · <kbd>F</kbd> modo apresentação</span>
+    </div>
+  </div>
+  <div class="ods-badge" aria-label="ODS 1: Erradicação da Pobreza">
+    <span class="ods-n">1</span>
+    <span class="ods-name">Erradicação<br>da Pobreza</span>
+    <span class="ods-txt">Acabar com a pobreza em todas as suas formas, em todos os lugares.</span>
+  </div>
+</div>
+
+<div class="grid grid-3">
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-flag"/></svg>O que é o ODS 1</h3>
+    <p>Um dos 17 Objetivos de Desenvolvimento Sustentável da ONU (Agenda 2030). Entre suas metas:</p>
+    <ul class="ticks">
+      <li><b>1.1</b> erradicar a pobreza extrema;</li>
+      <li><b>1.2</b> reduzir pelo menos à metade a proporção de pessoas na pobreza;</li>
+      <li><b>1.3</b> garantir sistemas de proteção social — no Brasil, o Cadastro Único é a porta de entrada.</li>
+    </ul>
+  </article>
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-target"/></svg>Objetivo do dashboard</h3>
+    <ul class="ticks">
+      <li>Mostrar como evoluíram as famílias em situação de pobreza e o emprego formal;</li>
+      <li>Identificar os municípios com maiores desafios;</li>
+      <li>Relacionar emprego formal e vulnerabilidade social, com base apenas em dados públicos.</li>
+    </ul>
+  </article>
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-milestone"/></svg>Roteiro</h3>
+    <ol class="route">
+      <li><button type="button" data-goto="geral">Panorama 2021–2026</button></li><li><button type="button" data-goto="vuln">Vulnerabilidade social</button></li>
+      <li><button type="button" data-goto="trab">Mercado de trabalho</button></li><li><button type="button" data-goto="comp">Comparação entre municípios</button></li>
+      <li><button type="button" data-goto="geo">Mapa de vulnerabilidade</button></li><li><button type="button" data-goto="integ">Análise integrada</button></li>
+      <li><button type="button" data-goto="concl">Conclusões</button></li>
+    </ol>
+  </article>
+</div>
+
+<article class="panel">
+  <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-database"/></svg>Dados utilizados</h2><p class="sub">Três bases públicas, combinadas por município</p></div>
+    <button class="btn-link" type="button" data-goto="metodo">Ver metodologia <svg class="ic"><use href="#i-arrow-right"/></svg></button></header>
+  <div class="sources">
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-users"/></svg></span>
+      <div><h3>Cadastro Único</h3><p class="src-org">MDS — Ministério do Desenvolvimento e Assistência Social, Família e Combate à Fome</p><p>Famílias cadastradas por faixa de renda: pobreza, extrema pobreza, baixa renda e acima de 1/2 salário mínimo.</p><p class="src-meta">Mensal · jan/2021 – ago/2026</p></div></div>
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-briefcase"/></svg></span>
+      <div><h3>Novo CAGED</h3><p class="src-org">MTE — Ministério do Trabalho e Emprego</p><p>Emprego formal: estoque de vínculos, admissões, desligamentos e saldo.</p><p class="src-meta">Mensal · jan/2021 – jul/2026</p></div></div>
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-map"/></svg></span>
+      <div><h3>IPVS 2022</h3><p class="src-org">Fundação SEADE</p><p>Índice Paulista de Vulnerabilidade Social: domicílios em 6 grupos, da baixíssima à muito alta vulnerabilidade.</p><p class="src-meta">Retrato de 2022</p></div></div>
+  </div>
+</article>
+
+<div class="grid grid-intro">
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-map-pin"/></svg>Municípios analisados</h2><p class="sub">Região Metropolitana de São Paulo</p></div></header>
+    <div class="intro-munis">
+      <div class="map-host map-compact" id="introMap"></div>
+      <ul class="muni-list" id="introMunis"></ul>
+    </div>
+  </article>
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-calendar-range"/></svg>Período estudado</h2><p class="sub" id="introPeriod"></p></div></header>
+    <ol class="timeline">
+      <li><span class="tl-date">jan/2021</span><span class="tl-txt">Início das séries mensais do CadÚnico e do CAGED</span></li>
+      <li><span class="tl-date">2022</span><span class="tl-txt">Retrato territorial do IPVS (SEADE)</span></li>
+      <li class="warn"><span class="tl-date">mar/2023</span><span class="tl-txt">CadÚnico passa a somar a extrema pobreza à pobreza — série ajustada</span></li>
+      <li class="warn"><span class="tl-date">jun/2023</span><span class="tl-txt">Reclassificação entre faixas de renda na base — leitura com cautela</span></li>
+      <li><span class="tl-date">jul/2026</span><span class="tl-txt">Último mês do CAGED</span></li>
+      <li><span class="tl-date">ago/2026</span><span class="tl-txt">Último mês do CadÚnico</span></li>
+    </ol>
+  </article>
+</div>
+
+      </section>
+
+      <!-- ===== APÊNDICE: PAINEL RESUMO ===== -->
       <section class="page" id="page-exec" role="tabpanel" aria-labelledby="tab-exec" data-title="Resumo Executivo">
         <div class="summary-banner" id="execSummary" aria-live="polite"></div>
         <div class="kpi-grid" id="kpiGrid"></div>
@@ -709,18 +1006,20 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
       <!-- ===== 2. VISÃO GERAL ===== -->
       <section class="page" id="page-geral" role="tabpanel" aria-labelledby="tab-geral" data-title="Visão Geral">
-        <div class="cards" id="cards-geral"></div>
+        <aside class="guide" id="guide-geral" aria-label="O que observar nesta etapa"></aside>
+        <div class="cards cards-3" id="cards-geral"></div>
         <div class="grid grid-2">
           <article class="panel"><header class="panel-head"><div><h2>Famílias no CadÚnico</h2><p class="sub" data-sub="mun"></p></div></header>
             <div class="chartwrap"><canvas id="chartCadLine"></canvas></div></article>
           <article class="panel"><header class="panel-head"><div><h2>Admissões, Desligamentos e Saldo</h2><p class="sub" data-sub="mun"></p></div></header>
             <div class="chartwrap"><canvas id="chartCagedLine"></canvas></div></article>
         </div>
-        <p class="note"><svg class="ic"><use href="#i-info"/></svg><span>A série de famílias soma a categoria "extrema pobreza" à de "pobreza" nos meses até fev/2023, para compensar a mudança de metodologia do CadÚnico ocorrida em mar/2023 (quando as duas faixas foram unificadas). Sem esse ajuste, a série mostraria um salto artificial.</span></p>
+        <p class="note"><svg class="ic"><use href="#i-info"/></svg><span>A série de famílias soma a categoria "extrema pobreza" à de "pobreza" nos meses até fev/2023, para compensar a mudança de metodologia do CadÚnico ocorrida em mar/2023 (quando as duas faixas foram unificadas). Sem esse ajuste, a série mostraria um salto artificial. Em jun/2023 há uma reclassificação entre "pobreza" e "acima de 1/2 SM" na própria base (o total quase não muda), que explica a queda brusca da linha amarela.</span></p>
       </section>
 
       <!-- ===== 3. VULNERABILIDADE SOCIAL ===== -->
       <section class="page" id="page-vuln" role="tabpanel" aria-labelledby="tab-vuln" data-title="Vulnerabilidade Social">
+        <aside class="guide" id="guide-vuln" aria-label="O que observar nesta etapa"></aside>
         <div class="cards" id="cards-vuln"></div>
         <div class="grid grid-2">
           <article class="panel"><header class="panel-head"><div><h2>Famílias em pobreza por município</h2><p class="sub" data-sub="cadMes"></p></div></header>
@@ -735,6 +1034,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
       <!-- ===== 4. MERCADO DE TRABALHO ===== -->
       <section class="page" id="page-trab" role="tabpanel" aria-labelledby="tab-trab" data-title="Mercado de Trabalho">
+        <aside class="guide" id="guide-trab" aria-label="O que observar nesta etapa"></aside>
         <div class="cards" id="cards-trab"></div>
         <div class="grid grid-2">
           <article class="panel"><header class="panel-head"><div><h2>Admissões vs. Desligamentos</h2><p class="sub" data-sub="mun"></p></div></header>
@@ -746,6 +1046,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
       <!-- ===== 5. VULNERABILIDADE GEOGRÁFICA ===== -->
       <section class="page" id="page-geo" role="tabpanel" aria-labelledby="tab-geo" data-title="Vulnerabilidade Geográfica">
+        <aside class="guide" id="guide-geo" aria-label="O que observar nesta etapa"></aside>
         <article class="panel">
           <header class="panel-head"><div><h2>Mapa de vulnerabilidade social (IPVS 2022)</h2><p class="sub">Domicílios por município · clique num município para filtrar o dashboard</p></div>
             <span class="select-wrap sm"><select id="mapMetric" aria-label="Indicador do mapa"><option value="vuln">Média + alta + muito alta</option><option value="alta">Alta + muito alta</option><option value="malta">Muito alta</option></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
@@ -767,6 +1068,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
       <!-- ===== 6. COMPARAÇÕES ===== -->
       <section class="page" id="page-comp" role="tabpanel" aria-labelledby="tab-comp" data-title="Comparações">
+        <aside class="guide" id="guide-comp" aria-label="O que observar nesta etapa"></aside>
         <article class="panel">
           <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-trophy"/></svg>Ranking automático</h2><p class="sub" id="rankSub"></p></div>
             <span class="select-wrap sm"><select id="rankMetric" aria-label="Indicador do ranking"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
@@ -800,11 +1102,53 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
 
       <!-- ===== 7. ANÁLISE INTEGRADA ===== -->
       <section class="page" id="page-integ" role="tabpanel" aria-labelledby="tab-integ" data-title="Análise Integrada">
+        <aside class="guide" id="guide-integ" aria-label="O que observar nesta etapa"></aside>
         <article class="panel"><header class="panel-head"><div><h2>Famílias no CadÚnico vs. Estoque de empregos</h2><p class="sub" data-sub="indice"></p></div></header>
           <div class="chartwrap"><canvas id="chartIndice"></canvas></div></article>
         <article class="panel"><header class="panel-head"><div><h2 data-sub="integ">Crescimento por município</h2></div></header>
           <div class="table-wrap"><table id="tableInteg"><caption class="sr-only">Crescimento de famílias no CadÚnico e do estoque de empregos por município</caption><thead><tr><th scope="col">Município</th><th scope="col">Famílias no CadÚnico</th><th scope="col">Variação</th><th scope="col">Estoque de empregos</th><th scope="col">Variação</th></tr></thead><tbody></tbody></table></div>
         </article>
+      </section>
+
+      <!-- ===== 8. CONCLUSÕES ===== -->
+      <section class="page" id="page-concl" role="tabpanel" aria-labelledby="tab-concl" data-title="Conclusões">
+        <!-- =====================================================================
+     Conclusões — os achados (#conclList) são calculados em
+     features/story.js > conclusions(), sempre para o período completo e
+     os 7 municípios. O restante é texto fixo, sustentado pela Metodologia.
+     ===================================================================== -->
+<div class="concl-lead">
+  <svg class="ic"><use href="#i-circle-check-big"/></svg>
+  <p>Seis achados principais, para o <strong>período completo</strong> e os <strong>7 municípios</strong>. Eles não mudam com os filtros. Cada achado indica onde está a evidência no dashboard.</p>
+</div>
+
+<ol class="concl-list" id="conclList"></ol>
+
+<div class="grid grid-2">
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-circle-alert"/></svg>O que os dados não permitem afirmar</h2></div></header>
+    <ul class="ticks muted">
+      <li><b>Causalidade.</b> As correlações mostram associação; não provam que o emprego reduz (ou não reduz) a pobreza.</li>
+      <li><b>Taxa de pobreza da população.</b> O CadÚnico conta famílias cadastradas, e não há dados de população no projeto.</li>
+      <li><b>Efeito de programas específicos.</b> Mudanças de regras e de cobertura do cadastro se misturam às mudanças de renda.</li>
+      <li><b>Diferenças dentro de cada município.</b> O IPVS foi usado agregado por município.</li>
+    </ul>
+  </article>
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-arrow-right"/></svg>Próximos passos possíveis</h2></div></header>
+    <ul class="ticks">
+      <li>Incluir a população do Censo 2022 para calcular taxas por habitante.</li>
+      <li>Usar o IPVS por setor censitário para ver a vulnerabilidade dentro dos municípios.</li>
+      <li>Acompanhar a série após as mudanças de 2023 para confirmar a tendência da pobreza.</li>
+    </ul>
+  </article>
+</div>
+
+<blockquote class="closing">
+  <svg class="ic"><use href="#i-quote"/></svg>
+  <p>As diferenças entre os municípios — na proporção de famílias em pobreza, na vulnerabilidade territorial e no ritmo do emprego formal — reforçam a importância de <strong>políticas públicas direcionadas a cada realidade</strong>. Mesmo com limitações, os dados públicos permitem localizar onde estão os maiores desafios do ODS 1 no nível municipal.</p>
+</blockquote>
+
       </section>
 
       <!-- ===== 8. ANÁLISE ESTATÍSTICA ===== -->
@@ -849,6 +1193,7 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
      ===================================================================== -->
 <div class="method">
   <nav class="method-toc" aria-label="Seções da metodologia">
+    <a href="#m-resumo">Em resumo</a>
     <a href="#m-objetivo">1. Objetivo</a>
     <a href="#m-fontes">2. Origem dos dados</a>
     <a href="#m-tratamento">3. Tratamento dos dados</a>
@@ -860,6 +1205,17 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
   </nav>
 
   <div class="method-body">
+    <article class="panel" id="m-resumo">
+      <h2><svg class="ic ic-title"><use href="#i-circle-check-big"/></svg>Em resumo</h2>
+      <div class="m-simple">
+        <div><h3><svg class="ic"><use href="#i-target"/></svg>Objetivo</h3><p>Descrever como evoluíram a pobreza registrada e o emprego formal e identificar os municípios com maiores desafios. Não buscamos provar causas.</p></div>
+        <div><h3><svg class="ic"><use href="#i-database"/></svg>Fontes</h3><p>Cadastro Único (famílias por faixa de renda), Novo CAGED (emprego formal) e IPVS 2022 da SEADE (vulnerabilidade dos domicílios). Todas públicas.</p></div>
+        <div><h3><svg class="ic"><use href="#i-calendar-range"/></svg>Período</h3><p>Dados mensais de jan/2021 a ago/2026 (CAGED até jul/2026). O IPVS é um retrato de 2022.</p></div>
+        <div><h3><svg class="ic"><use href="#i-map-pin"/></svg>Municípios</h3><p>Barueri, Carapicuíba, Itapevi, Jandira, Osasco, Pirapora do Bom Jesus e Santana de Parnaíba (Grande São Paulo).</p></div>
+        <div><h3><svg class="ic"><use href="#i-triangle-alert"/></svg>Limitações</h3><p>O CadÚnico conta famílias cadastradas, não toda a população; houve mudanças na base em 2023; o CAGED mede só o emprego formal, no município da empresa.</p></div>
+      </div>
+    </article>
+    <p class="m-divider">Detalhamento técnico</p>
     <article class="panel" id="m-objetivo">
       <h2><svg class="ic ic-title"><use href="#i-lightbulb"/></svg>1. Objetivo</h2>
       <p>Este painel acompanha indicadores relacionados ao <strong>Objetivo de Desenvolvimento Sustentável 1 — Erradicação da Pobreza</strong> em sete municípios paulistas: Barueri, Carapicuíba, Itapevi, Jandira, Osasco, Pirapora do Bom Jesus e Santana de Parnaíba. Ele combina três dimensões: a <em>vulnerabilidade social</em> das famílias registradas no Cadastro Único, o <em>mercado de trabalho formal</em> (Novo CAGED) e a <em>vulnerabilidade territorial</em> (IPVS 2022).</p>
@@ -966,6 +1322,14 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
   </div>
 </div>
 
+<!-- Barra do modo apresentação -->
+<div class="present-bar" id="presentBar" hidden>
+  <button type="button" class="pb-btn" data-story="prev" aria-label="Etapa anterior"><svg class="ic"><use href="#i-arrow-left"/></svg></button>
+  <span class="pb-label" id="presentLabel"></span>
+  <button type="button" class="pb-btn" data-story="next" aria-label="Próxima etapa"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
+  <button type="button" class="pb-btn" data-action="present" aria-label="Sair do modo apresentação"><svg class="ic"><use href="#i-x"/></svg></button>
+</div>
+
 <!-- Tooltip compartilhado do mapa -->
 <div class="map-tip" id="mapTip" role="tooltip" hidden></div>
 
@@ -974,8 +1338,10 @@ td.pos { color: var(--good); } td.neg { color: var(--bad); }
   <header><h2 id="helpTitle"><svg class="ic"><use href="#i-keyboard"/></svg>Atalhos de teclado</h2>
     <button class="icon-btn" type="button" data-action="close-help" aria-label="Fechar"><svg class="ic"><use href="#i-x"/></svg></button></header>
   <dl class="shortcuts">
-    <div><dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Ir para a página correspondente</dd></div>
-    <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Página anterior / próxima (com o menu focado: <kbd>↑</kbd> <kbd>↓</kbd>)</dd></div>
+    <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Etapa anterior / próxima</dd></div>
+    <div><dt><kbd>1</kbd>–<kbd>8</kbd></dt><dd>Ir para a etapa do roteiro</dd></div>
+    <div><dt><kbd>9</kbd></dt><dd>Painel resumo (apêndice)</dd></div>
+    <div><dt><kbd>F</kbd></dt><dd>Modo apresentação (tela cheia, letras maiores)</dd></div>
     <div><dt><kbd>M</kbd></dt><dd>Escolher município</dd></div>
     <div><dt><kbd>A</kbd></dt><dd>Escolher ano</dd></div>
     <div><dt><kbd>L</kbd></dt><dd>Limpar filtros</dd></div>
@@ -1400,7 +1766,8 @@ ODS.charts = (() => {
     const c = ODS.theme.colors();
     const d = Chart.defaults;
     d.font.family = "'IBM Plex Sans', system-ui, sans-serif";
-    d.font.size = 11.5;
+    const big = document.body.classList.contains('presenting'); // projetor: letras maiores
+    d.font.size = big ? 14 : 11.5;
     d.color = c.ink3;
     d.borderColor = c.grid;
     d.animation.duration = ODS.util.reducedMotion() ? 0 : 450;
@@ -1512,41 +1879,58 @@ ODS.charts = (() => {
 
 /* ==== core/router.js ==== */
 /* =====================================================================
-   core/router.js — Navegação entre páginas com renderização sob demanda.
+   core/router.js — Navegação como ROTEIRO DE APRESENTAÇÃO.
 
-   - Cada página se registra com register(id, {group, title, sub, render}).
-   - Só a página visível é renderizada; as demais ficam marcadas como
-     "sujas" e são desenhadas quando abertas (carregamento mais rápido e
-     gráficos sempre com o tamanho certo).
-   - Mudança de filtro ou de tema => invalidate() marca todas como sujas.
-   - O endereço (#pagina) permite links diretos e o botão "voltar".
-   - Padrão ARIA de abas: role=tab/tabpanel, aria-selected, setas do teclado.
+   - STORY define a sequência narrativa (8 etapas); APPENDIX, as páginas
+     de consulta. O menu, a barra de progresso, os botões "anterior /
+     próxima" no fim de cada etapa e as setas ← → seguem essa ordem.
+   - Só a página visível é renderizada; as demais ficam "sujas" e são
+     desenhadas quando abertas (carregamento rápido, gráficos no tamanho certo).
+   - Filtro ou tema mudou => invalidate() marca todas como sujas.
+   - #pagina no endereço permite links diretos e o botão "voltar".
+   - Padrão ARIA de abas (role=tab/tabpanel, aria-selected, setas no menu).
+   - Modo apresentação (tecla F): tela cheia, letras maiores, barra flutuante.
    ===================================================================== */
 ODS.router = (() => {
-  const { $, $$ } = ODS.util;
+  const { $, $$, icon, esc } = ODS.util;
+  const STORY = ['intro', 'geral', 'vuln', 'trab', 'comp', 'geo', 'integ', 'concl'];
+  const APPENDIX = ['exec', 'stats', 'metodo'];
+  const ORDER = [...STORY, ...APPENDIX];
   const pages = new Map();
   const dirty = new Set();
   let current = null;
 
   const register = (id, def) => { pages.set(id, def); dirty.add(id); };
-  const ids = () => $$('.nav-item').map(b => b.dataset.page);
+  const titleOf = id => (pages.get(id) || {}).title || id;
 
   function renderPage(id) {
     const def = pages.get(id);
     if (!def) return;
-    try { def.render(); } catch (err) { console.error(`[${id}]`, err); }
+    try {
+      def.render();
+      // faixa "O que observar" (textos em features/story.js)
+      const g = document.getElementById('guide-' + id), G = ODS.story && ODS.story.GUIDES[id];
+      if (g && G) ODS.story.renderGuide(g, G.question, G.items(ODS.state.period(), ODS.state.munis()));
+    } catch (err) { console.error(`[${id}]`, err); }
     dirty.delete(id);
   }
 
   function updateHeader() {
     const def = pages.get(current) || {};
-    $('#pageEyebrow').textContent = def.group || '';
+    const k = STORY.indexOf(current);
+    $('#pageEyebrow').textContent = k >= 0 ? `Etapa ${k + 1} de ${STORY.length}` : 'Apêndice';
     $('#pageTitle').textContent = def.title || '';
     $('#pageSub').textContent = typeof def.sub === 'function' ? def.sub() : (def.sub || '');
+    // barra de progresso clicável
+    $('#storyProgress').innerHTML = STORY.map((id, i) =>
+      `<li><button type="button" class="${i < k ? 'done' : i === k ? 'now' : ''}" data-goto="${id}" aria-label="Etapa ${i + 1}: ${esc(titleOf(id))}"${i === k ? ' aria-current="step"' : ''}></button></li>`).join('');
+    const pl = $('#presentLabel');
+    if (pl) pl.textContent = k >= 0 ? `${k + 1}/${STORY.length} · ${def.title}` : `Apêndice · ${def.title}`;
   }
 
-  function show(id, { focusTab = false, updateHash = true } = {}) {
-    if (!pages.has(id)) id = 'exec';
+  function show(id, { focusTab = false, updateHash = true, scroll = true } = {}) {
+    if (!pages.has(id)) id = STORY[0];
+    const changed = id !== current;
     current = id;
     $$('.nav-item').forEach(b => {
       const on = b.dataset.page === id;
@@ -1557,47 +1941,78 @@ ODS.router = (() => {
     });
     $$('.page').forEach(p => { const on = p.id === 'page-' + id; p.classList.toggle('active', on); p.hidden = !on; });
     updateHeader();
-    document.title = `${pages.get(id).title} · Erradicação da Pobreza (ODS 1)`;
+    document.title = `${titleOf(id)} · Erradicação da Pobreza (ODS 1)`;
     if (dirty.has(id)) renderPage(id);
     if (updateHash && location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
-    ODS.a11y && ODS.a11y.announce(`Página ${pages.get(id).title}`);
+    if (changed && scroll) window.scrollTo({ top: 0 });
+    ODS.a11y && ODS.a11y.announce(`${STORY.includes(id) ? `Etapa ${STORY.indexOf(id) + 1} de ${STORY.length}: ` : 'Apêndice: '}${titleOf(id)}`);
   }
 
-  /** Filtros/tema mudaram: tudo fica sujo; redesenha a página atual */
   function invalidate() {
     pages.forEach((_, id) => dirty.add(id));
     if (current) { renderPage(current); updateHeader(); }
   }
-
-  /** Renderiza todas as páginas (impressão) */
   function renderAll() { pages.forEach((_, id) => { if (dirty.has(id)) renderPage(id); }); }
 
+  /** Avança/recua na ordem do roteiro (história e depois apêndice) */
   function step(delta) {
-    const list = ids(); const k = list.indexOf(current);
-    show(list[(k + delta + list.length) % list.length], { focusTab: document.activeElement && document.activeElement.classList.contains('nav-item') });
+    const k = ORDER.indexOf(current);
+    const next = ORDER[Math.min(ORDER.length - 1, Math.max(0, k + delta))];
+    if (next !== current) show(next, { focusTab: document.activeElement && document.activeElement.classList.contains('nav-item') });
   }
 
+  /** Rodapé "anterior / próxima" em cada página */
+  function buildStoryNav() {
+    ORDER.forEach((id, k) => {
+      const sec = document.getElementById('page-' + id); if (!sec) return;
+      const prev = ORDER[k - 1], next = ORDER[k + 1];
+      const inStory = STORY.includes(id);
+      const lbl = (pid, dir) => `<span class="sn-dir">${dir}</span><span class="sn-title">${STORY.includes(pid) ? `${STORY.indexOf(pid) + 1}. ` : ''}${esc(titleOf(pid))}</span>`;
+      const nav = document.createElement('nav');
+      nav.className = 'story-nav'; nav.setAttribute('aria-label', 'Navegação entre etapas');
+      nav.innerHTML =
+        (prev ? `<button type="button" class="sn prev" data-goto="${prev}">${icon('arrow-left')}<span>${lbl(prev, 'Anterior')}</span></button>` : '<span></span>') +
+        (inStory ? `<span class="sn-count">${STORY.indexOf(id) + 1} / ${STORY.length}</span>` : '<span class="sn-count">Apêndice</span>') +
+        (next ? `<button type="button" class="sn next" data-goto="${next}"><span>${lbl(next, id === 'concl' ? 'Apêndice' : 'Próxima')}</span>${icon('arrow-right')}</button>` : `<button type="button" class="sn next" data-goto="intro"><span>${lbl('intro', 'Voltar ao início')}</span>${icon('rotate-ccw')}</button>`);
+      sec.appendChild(nav);
+    });
+  }
+
+  /* ---------- Modo apresentação ---------- */
+  function setPresenting(on) {
+    document.body.classList.toggle('presenting', on);
+    $('#presentBar').hidden = !on;
+    document.querySelectorAll('[data-action="present"]').forEach(b => b.setAttribute('aria-pressed', String(on)));
+    if (on && document.documentElement.requestFullscreen && !document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+    if (!on && document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    ODS.charts.applyDefaults(); invalidate(); ODS.charts.resizeAll();
+    ODS.a11y && ODS.a11y.announce(on ? 'Modo apresentação ativado' : 'Modo apresentação desativado');
+  }
+  const togglePresenting = () => setPresenting(!document.body.classList.contains('presenting'));
+
   function init() {
-    // clique nas abas
+    buildStoryNav();
     $$('.nav-item').forEach(b => b.addEventListener('click', () => show(b.dataset.page)));
-    // setas dentro da lista de abas (padrão WAI-ARIA)
     $('.nav').addEventListener('keydown', e => {
       const map = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
       if (map[e.key]) { e.preventDefault(); step(map[e.key]); $('.nav-item[aria-selected="true"]').focus(); }
-      if (e.key === 'Home') { e.preventDefault(); show(ids()[0], { focusTab: true }); }
-      if (e.key === 'End') { e.preventDefault(); const l = ids(); show(l[l.length - 1], { focusTab: true }); }
+      if (e.key === 'Home') { e.preventDefault(); show(ORDER[0], { focusTab: true }); }
+      if (e.key === 'End') { e.preventDefault(); show(ORDER[ORDER.length - 1], { focusTab: true }); }
     });
-    // links internos (data-goto)
     document.addEventListener('click', e => {
       const a = e.target.closest('[data-goto]');
-      if (a) { e.preventDefault(); show(a.dataset.goto); window.scrollTo({ top: 0, behavior: ODS.util.reducedMotion() ? 'auto' : 'smooth' }); }
+      if (a) { e.preventDefault(); show(a.dataset.goto); return; }
+      const s = e.target.closest('[data-story]');
+      if (s) step(s.dataset.story === 'next' ? 1 : -1);
     });
+    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.body.classList.contains('presenting')) setPresenting(false); });
     window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (pages.has(id) && id !== current) show(id, { updateHash: false }); });
     const start = location.hash.slice(1);
-    show(pages.has(start) ? start : 'exec', { updateHash: false });
+    show(pages.has(start) ? start : STORY[0], { updateHash: false });
   }
 
-  return { register, show, invalidate, renderAll, step, init, current: () => current, updateHeader };
+  return { STORY, APPENDIX, ORDER, register, show, invalidate, renderAll, step, init, togglePresenting,
+           current: () => current, updateHeader, presenting: () => document.body.classList.contains('presenting') };
 })();
 
 /* ==== features/kpis.js ==== */
@@ -1929,7 +2344,8 @@ ODS.map = (() => {
       s += '<g>' + G.neigh.map(n => `<path d="${n.d}" class="neigh"/>`).join('') + '</g><g>';
       D.MUNIS.forEach(m => {
         const v = vals[m];
-        s += `<path d="${G.ours[m].d}" data-m="${esc(m)}" data-k="${classOf(v, br)}" class="muni${selected && selected !== m ? ' dim' : ''}" fill="${c.seq[classOf(v, br)]}"
+        const fill = opts.plain ? ODS.charts.muniColor(m) : c.seq[classOf(v, br)]; // plain: cor fixa de cada município (Introdução)
+        s += `<path d="${G.ours[m].d}" data-m="${esc(m)}" data-k="${classOf(v, br)}" class="muni${selected && selected !== m ? ' dim' : ''}" fill="${fill}"
           tabindex="${compact ? -1 : 0}" role="button" aria-pressed="${selected === m}"
           aria-label="${esc(m)}: ${fmtPct(v)}, ${rank.indexOf(m) + 1}º de 7. Enter para ${selected === m ? 'remover o filtro' : 'filtrar o dashboard'}."/>`;
       });
@@ -1939,7 +2355,7 @@ ODS.map = (() => {
       G.neigh.forEach(n => { const [x, y] = n.c; if (x > 30 && x < G.w - 30 && y > 30 && y < G.h - 30) s += `<text x="${x}" y="${y}" class="nlbl" data-px="10">${esc(n.n)}</text>`; });
       D.MUNIS.forEach(m => {
         const [x, y] = G.ours[m].c;
-        s += `<text x="${x}" y="${y}" class="mlbl" data-px="11.5">${esc(m)}</text><text x="${x}" y="${y}" class="mval" data-px="11">${fmtPct(vals[m])}</text>`;
+        s += `<text x="${x}" y="${y}" class="mlbl" data-px="11.5">${esc(m)}</text>` + (opts.plain ? '' : `<text x="${x}" y="${y}" class="mval" data-px="11">${fmtPct(vals[m])}</text>`);
       });
       s += '</g></svg>';
       if (!compact) s += `<div class="map-zoom" role="group" aria-label="Zoom do mapa">
@@ -2281,7 +2697,8 @@ ODS.compare = (() => {
    para leitores de tela e diálogo de ajuda.
 
    Atalhos (ignorados enquanto se digita em campos):
-     1–9 páginas · ←/→ página anterior/próxima · M município · A ano
+     1–8 etapas do roteiro · 9 painel resumo · ←/→ etapa anterior/próxima
+     F modo apresentação · M município · A ano
      L limpar filtros · D modo escuro · P imprimir · ? ajuda
      + − 0 zoom do mapa (na página do mapa)
    ===================================================================== */
@@ -2327,6 +2744,7 @@ ODS.a11y = (() => {
       case 'a': case 'A': e.preventDefault(); focusSelect('anoFilter'); break;
       case 'l': case 'L': ODS.state.set({ muni: '', ano: '' }); announce('Filtros limpos'); break;
       case 'd': case 'D': ODS.theme.toggle(); break;
+      case 'f': case 'F': e.preventDefault(); ODS.router.togglePresenting(); break;
       case 'p': case 'P': e.preventDefault(); window.print(); break;
       case '?': e.preventDefault(); $('#helpDialog').open ? closeHelp() : openHelp(); break;
       case '+': case '=': ODS.pages && ODS.pages.geoZoom && ODS.pages.geoZoom(1.5); break;
@@ -2348,11 +2766,225 @@ ODS.a11y = (() => {
       if (a === 'help') openHelp();
       if (a === 'close-help') closeHelp();
       if (a === 'print') window.print();
+      if (a === 'present') ODS.router.togglePresenting();
     });
     $('#helpDialog').addEventListener('click', e => { if (e.target.id === 'helpDialog') closeHelp(); }); // clique fora fecha
   }
 
   return { init, announce, openHelp };
+})();
+
+/* ==== features/story.js ==== */
+/* =====================================================================
+   features/story.js — Narrativa da apresentação.
+
+   GUIDES[pagina] = { question, items(P, munis) }
+     Faixa "O que observar" no topo de cada etapa: a pergunta que a etapa
+     responde + 2–3 frases curtas que orientam a leitura dos gráficos.
+     Todo número citado é calculado dos dados (acompanha os filtros).
+
+   conclusions()
+     Achados finais — SEMPRE para o período completo e os 7 municípios,
+     para não mudarem com os filtros durante a apresentação.
+   ===================================================================== */
+ODS.story = (() => {
+  const u = ODS.util, D = ODS.data;
+  const { fmt, fmtPct, fmtMes, fmtSigned, pct, isNum, esc, icon } = u;
+  const L = D.L;
+  const b = s => `<strong>${s}</strong>`;
+  const J5 = L.indexOf('2023-06');
+
+  /** Pico de uma série no período: {i, v} */
+  function peak(key, idx, munis) {
+    let best = null;
+    idx.forEach(i => { const v = D.agg(key, i, munis); if (isNum(v) && (!best || v > best.v)) best = { i, v }; });
+    return best;
+  }
+  const scopeTxt = munis => munis.length === 1 ? `em ${munis[0]}` : 'nos 7 municípios';
+  const corrReading = r => !isNum(r) ? 'indefinida'
+    : Math.abs(r) < .3 ? `${u.corrStrength(r)} (r = ${u.fmt2(r)}): os dados não mostram uma relação direta, mês a mês, entre o ritmo do emprego formal e o da pobreza registrada`
+    : r < 0 ? `${u.corrStrength(r)} e negativa (r = ${u.fmt2(r)}): meses de mais emprego tendem a coincidir com menor crescimento da pobreza`
+    : `${u.corrStrength(r)} e positiva (r = ${u.fmt2(r)}): as duas séries tendem a crescer juntas`;
+  function monthlyCorr(P, munis) {
+    const ch = ODS.insights.monthlyChanges;
+    return u.pearson(ch(D.series('est', P.idx, munis)), ch(D.series('pob', P.idx, munis)));
+  }
+
+  const GUIDES = {
+    geral: {
+      question: 'O que aconteceu entre 2021 e 2026?',
+      items(P, M) {
+        const t0 = D.agg('tot', P.cadFirst, M), t1 = D.agg('tot', P.cadLast, M);
+        const pk = peak('pob', P.idx, M), p1 = D.agg('pob', P.cadLast, M);
+        const sal = D.series('sal', P.cgIdx, M).filter(isNum), pos = sal.filter(v => v > 0).length;
+        return [
+          `Observe a linha vermelha: as famílias no CadÚnico ${scopeTxt(M)} passaram de ${b(fmt(t0))} (${fmtMes(L[P.cadFirst])}) para ${b(fmt(t1))} (${fmtMes(L[P.cadLast])}), ${b(fmtSigned(pct(t1, t0)))}.`,
+          `A pobreza (linha amarela) atingiu o pico em ${b(fmtMes(L[pk.i]))} (${fmt(pk.v)} famílias) e terminou em ${fmt(p1)}${P.idx.includes(J5) && P.idx.includes(J5 - 1) ? ' — a queda brusca em jun/2023 é, em boa parte, reclassificação entre faixas na base, não necessariamente melhora real' : ''}.`,
+          `No emprego formal, o saldo foi positivo em ${b(`${pos} de ${sal.length}`)} meses: ${pos > sal.length / 2 ? 'as admissões superaram os desligamentos na maior parte do período' : 'os desligamentos predominaram'}.`,
+        ];
+      },
+    },
+    vuln: {
+      question: 'Quantas famílias estão em situação de vulnerabilidade — e onde?',
+      items(P, M) {
+        const i = P.cadLast;
+        const out = [`Em ${fmtMes(L[i])}, ${b(fmtPct(D.agg('pctPob', i, M)))} das famílias cadastradas ${scopeTxt(M)} estavam em situação de pobreza e ${fmtPct(D.agg('br', i, M) / D.agg('tot', i, M) * 100)} em baixa renda.`];
+        const rAbs = D.rank('pob', P), rPct = D.rank('pctPob', P);
+        if (M.length > 1) {
+          out.push(rAbs[0].m === rPct[0].m
+            ? `${b(rAbs[0].m)} lidera tanto em número de famílias em pobreza (${fmt(rAbs[0].v)}) quanto em proporção (${fmtPct(rPct[0].v)}).`
+            : `Compare tamanho e proporção: ${b(rAbs[0].m)} tem mais famílias em pobreza (${fmt(rAbs[0].v)}), mas a maior proporção está em ${b(rPct[0].m)} (${fmtPct(rPct[0].v)}).`);
+        } else {
+          const r = rPct.find(x => x.m === M[0]);
+          out.push(`${b(M[0])} é o ${r.rank}º município em proporção de famílias em pobreza entre os 7 (${fmtPct(r.v)}).`);
+        }
+        out.push('Use o filtro de município (tecla M) para ver cada realidade separadamente.');
+        return out;
+      },
+    },
+    trab: {
+      question: 'Como evoluiu o emprego formal?',
+      items(P, M) {
+        const v = pct(D.agg('est', P.cgLast, M), D.agg('est', P.cgFirst, M));
+        const rEst = D.rank('varEst', P);
+        const neg = D.MUNIS.filter(m => (D.agg('sal', P.cgLast, [m]) || 0) < 0).length;
+        return [
+          'Admissões (verde) e desligamentos (vermelho) andam juntos; o saldo é a diferença entre eles.',
+          `O estoque de empregos formais ${scopeTxt(M)} variou ${b(fmtSigned(v))} entre ${fmtMes(L[P.cgFirst])} e ${fmtMes(L[P.cgLast])}${M.length > 1 ? `; ${b(rEst[0].m)} teve o maior crescimento (${fmtSigned(rEst[0].v)}) e ${rEst[rEst.length - 1].m} o menor (${fmtSigned(rEst[rEst.length - 1].v)})` : ''}.`,
+          `No gráfico por município, barras vermelhas indicam mais desligamentos que admissões: ${b(`${neg} de 7`)} municípios tiveram saldo negativo em ${fmtMes(L[P.cgLast])}.`,
+        ];
+      },
+    },
+    comp: {
+      question: 'Quais municípios apresentam maiores desafios?',
+      items(P) {
+        const r = D.rank('pctPob', P), top = r[0], low = r[r.length - 1];
+        const rv = D.rank('varPob', P);
+        return [
+          'Compare os municípios para identificar diferenças na vulnerabilidade: troque o indicador do ranking no seletor ao lado.',
+          `Em proporção de famílias em pobreza, ${b(top.m)} (${fmtPct(top.v)}) lidera e ${b(low.m)} (${fmtPct(low.v)}) tem o menor valor — diferença de ${fmtSigned(top.v - low.v, ' p.p.').replace('+', '')}. No período, a pobreza cresceu mais em ${b(rv[0].m)} (${fmtSigned(rv[0].v)}).`,
+          'Na evolução temporal, o índice 100 coloca todos no mesmo ponto de partida e permite comparar municípios de tamanhos muito diferentes.',
+        ];
+      },
+    },
+    geo: {
+      question: 'Onde a vulnerabilidade está concentrada no território?',
+      items() {
+        const r = [...D.MUNIS].sort((a, c) => D.ipvsPct([c]) - D.ipvsPct([a]));
+        const v = m => fmtPct(D.ipvsPct([m]));
+        return [
+          'O mapa permite visualizar a distribuição territorial da vulnerabilidade: quanto mais escura a cor, maior a proporção de domicílios em vulnerabilidade média, alta ou muito alta.',
+          `${b(r[0])} (${v(r[0])}) e ${b(r[1])} (${v(r[1])}) se destacam; ${r[6]} tem o menor percentual (${v(r[6])}).`,
+          'Passe o mouse para ver os detalhes e clique para filtrar o dashboard. O IPVS é um retrato de 2022.',
+        ];
+      },
+    },
+    integ: {
+      question: 'O emprego formal acompanha a vulnerabilidade social?',
+      items(P, M) {
+        const a = pct(D.agg('tot', P.cadLast, M), D.agg('tot', P.cadFirst, M));
+        const e = pct(D.agg('est', P.cgLast, M), D.agg('est', P.cgFirst, M));
+        const c = monthlyCorr(P, M);
+        return [
+          'As duas linhas partem de 100. Quando a vermelha (famílias no CadÚnico) fica acima da azul (empregos formais), o cadastro cresceu mais rápido que o emprego.',
+          `No período, as famílias no CadÚnico variaram ${b(fmtSigned(a))} e os empregos formais ${b(fmtSigned(e))}.`,
+          `Mês a mês, a correlação entre as variações do emprego e da pobreza é ${corrReading(c.r)}.`,
+        ];
+      },
+    },
+  };
+
+  /** Desenha a faixa-guia */
+  function renderGuide(el, question, items) {
+    el.innerHTML = `<div class="guide-q">${icon('target')}<div><span class="guide-k">Pergunta desta etapa</span><p>${esc(question)}</p></div></div>
+      <div class="guide-obs"><span class="guide-k">${icon('lightbulb')}O que observar</span><ul>${items.map(t => `<li>${t}</li>`).join('')}</ul></div>`;
+  }
+
+  /* ---------------- Conclusões (período completo, 7 municípios) ---------------- */
+  function conclusions() {
+    const P = D.period(''), M = D.MUNIS;
+    const ip = [...M].sort((a, c) => D.ipvsPct([c]) - D.ipvsPct([a]));
+    const rPct = D.rank('pctPob', P);
+    const t0 = D.agg('tot', P.cadFirst), t1 = D.agg('tot', P.cadLast);
+    const p0 = D.agg('pob', P.cadFirst), p1 = D.agg('pob', P.cadLast), pk = peak('pob', P.idx, M);
+    const e0 = D.agg('est', P.cgFirst), e1 = D.agg('est', P.cgLast);
+    const rEst = D.rank('varEst', P);
+    const shareOsasco = D.agg('est', P.cgLast, ['Osasco']) / e1 * 100;
+    const c = monthlyCorr(P, M);
+    // concentração absoluta: 2 municípios com mais famílias em pobreza
+    const rAbs = D.rank('pob', P), share2 = (rAbs[0].v + rAbs[1].v) / p1 * 100;
+    const highIpvs = ip.filter(m => D.ipvsPct([m]) >= 50);
+
+    return [
+      { ic: 'map', goto: 'geo', gotoLabel: 'Mapa de vulnerabilidade',
+        title: 'Os municípios têm níveis muito diferentes de vulnerabilidade',
+        big: `${fmtPct(D.ipvsPct([ip[6]]), 0)} – ${fmtPct(D.ipvsPct([ip[0]]), 0)}`, bigLabel: 'domicílios vulneráveis (IPVS 2022)',
+        text: `A proporção de domicílios em vulnerabilidade média, alta ou muito alta vai de ${fmtPct(D.ipvsPct([ip[6]]))} em ${ip[6]} a ${fmtPct(D.ipvsPct([ip[0]]))} em ${ip[0]}. No CadÚnico, a parcela de famílias em pobreza varia de ${fmtPct(rPct[rPct.length - 1].v)} (${rPct[rPct.length - 1].m}) a ${fmtPct(rPct[0].v)} (${rPct[0].m}).` },
+      { ic: 'users', goto: 'geral', gotoLabel: 'Panorama 2021–2026',
+        title: 'A demanda por proteção social cresceu no período',
+        big: fmtSigned(pct(t1, t0), '%'), bigLabel: `famílias no CadÚnico (${fmtMes(L[P.cadFirst])} → ${fmtMes(L[P.cadLast])})`,
+        text: `As famílias cadastradas passaram de ${fmt(t0)} para ${fmt(t1)}. As famílias em pobreza subiram de ${fmt(p0)} para um pico de ${fmt(pk.v)} em ${fmtMes(L[pk.i])} e terminaram em ${fmt(p1)} (${fmtSigned(pct(p1, p0))} no período) — parte da queda de jun/2023 decorre de reclassificação na base.` },
+      { ic: 'briefcase', goto: 'trab', gotoLabel: 'Mercado de trabalho',
+        title: 'O emprego formal cresceu, mas de forma desigual',
+        big: fmtSigned(pct(e1, e0), '%'), bigLabel: `vínculos formais (${fmtMes(L[P.cgFirst])} → ${fmtMes(L[P.cgLast])})`,
+        text: `O estoque passou de ${fmt(e0)} para ${fmt(e1)} vínculos. O crescimento variou de ${fmtSigned(rEst[rEst.length - 1].v)} em ${rEst[rEst.length - 1].m} a ${fmtSigned(rEst[0].v)} em ${rEst[0].m}; Osasco concentra ${fmtPct(shareOsasco, 0)} dos empregos formais dos 7 municípios.` },
+      { ic: 'git-compare', goto: 'integ', gotoLabel: 'Análise integrada',
+        title: 'Mais emprego não significou, sozinho, menos vulnerabilidade registrada',
+        big: `r = ${u.fmt2(c.r)}`, bigLabel: `correlação mensal emprego × pobreza (n = ${c.n})`,
+        text: `Enquanto o emprego formal cresceu ${fmtSigned(pct(e1, e0))}, as famílias no CadÚnico cresceram ${fmtSigned(pct(t1, t0))}. Mês a mês, a correlação entre as variações do emprego e da pobreza é ${u.corrStrength(c.r)}. Uma explicação possível (não testada): o CAGED registra o emprego no município da empresa, não no de residência, e parte das vagas pode não alcançar as famílias cadastradas.` },
+      { ic: 'triangle-alert', goto: 'vuln', gotoLabel: 'Vulnerabilidade social',
+        title: 'A vulnerabilidade está concentrada em poucos municípios',
+        big: fmtPct(share2, 0), bigLabel: `das famílias em pobreza estão em ${rAbs[0].m} e ${rAbs[1].m}`,
+        text: `Em números absolutos, ${rAbs[0].m} e ${rAbs[1].m} reúnem ${fmtPct(share2)} das ${fmt(p1)} famílias em pobreza. Em proporção, ${highIpvs.length === 1 ? `${highIpvs[0]} é o único município` : `${highIpvs.join(' e ')} são os municípios`} com metade ou mais dos domicílios em vulnerabilidade média, alta ou muito alta.` },
+      { ic: 'database', goto: 'metodo', gotoLabel: 'Metodologia',
+        title: 'Dados públicos permitem acompanhar o ODS 1 no nível municipal — com limites',
+        big: `${L.length} meses`, bigLabel: '3 bases públicas, 7 municípios',
+        text: `CadÚnico, Novo CAGED e IPVS permitem acompanhar mês a mês a vulnerabilidade e o emprego. Mas as séries têm quebras (mar/2023 e jun/2023), não há dados de população para taxas por habitante e o IPVS é um retrato de 2022.` },
+    ];
+  }
+
+  return { GUIDES, renderGuide, conclusions, monthlyCorr };
+})();
+
+/* ==== pages/story-pages.js ==== */
+/* =====================================================================
+   pages/story-pages.js — Etapas narrativas: Introdução (1) e Conclusões (8).
+   ===================================================================== */
+ODS.pages = ODS.pages || {};
+
+ODS.pages.story = (() => {
+  const u = ODS.util, D = ODS.data, S = ODS.state;
+  const { $, fmt, fmtMes, esc, icon } = u;
+  let introMap = null;
+
+  function renderIntro() {
+    const P = D.period('');
+    if (!introMap) introMap = ODS.map.create($('#introMap'), null, { compact: true, plain: true, onSelect: m => S.set({ muni: S.get().muni === m ? '' : m }) });
+    introMap.update({ metric: 'vuln', selected: S.get().muni, P });
+    $('#introMunis').innerHTML = D.MUNIS.map(m => `<li>
+      <span class="dot" style="background:${ODS.charts.muniColor(m)}"></span>
+      <span class="mn">${esc(m)}</span>
+      <span class="mm">${fmt(D.agg('tot', P.cadLast, [m]))} famílias no CadÚnico · ${fmt(D.agg('est', P.cgLast, [m]))} empregos formais</span></li>`).join('');
+    $('#introPeriod').textContent = `${fmtMes(D.L[0])} a ${fmtMes(D.L[D.L.length - 1])} · ${D.L.length} meses de dados mensais`;
+  }
+
+  function renderConcl() {
+    $('#conclList').innerHTML = ODS.story.conclusions().map((c, k) => `<li class="concl">
+      <div class="concl-num" aria-hidden="true">${k + 1}</div>
+      <div class="concl-body">
+        <h2>${esc(c.title)}</h2>
+        <p>${esc(c.text)}</p>
+        <button type="button" class="btn-link" data-goto="${c.goto}">Ver evidência: ${esc(c.gotoLabel)} ${icon('arrow-right')}</button>
+      </div>
+      <div class="concl-fig"><span class="concl-ic">${icon(c.ic)}</span><b>${esc(c.big)}</b><span>${esc(c.bigLabel)}</span></div>
+    </li>`).join('');
+  }
+
+  function init() {
+    ODS.router.register('intro', { title: 'Introdução', sub: 'ODS 1 · objetivo, dados, municípios e período', render: renderIntro });
+    ODS.router.register('concl', { title: 'Conclusões', sub: 'Principais achados · período completo e 7 municípios', render: renderConcl });
+  }
+  return { init };
 })();
 
 /* ==== pages/exec.js ==== */
@@ -2452,7 +3084,7 @@ ODS.pages.exec = (() => {
     u.fillSelect($('#execRankMetric'), RANK_OPTS.map(k => ({ value: k, label: D.METRICS[k].label })), 'pctPob');
     $('#execRankMetric').addEventListener('change', () => ranking(S.period(), S.get().muni));
     ODS.router.register('exec', {
-      group: 'Visão executiva', title: 'Resumo Executivo',
+      title: 'Painel resumo',
       sub: () => `${S.scopeLabel()} · ${S.period().label}`,
       render,
     });
@@ -2508,7 +3140,11 @@ ODS.pages.panels = (() => {
       K.panelCard({ ic: 'users', label: `Famílias no CadÚnico (${fmtMes(L[P.cadLast])})`, value: D.agg('tot', P.cadLast, M), base: D.agg('tot', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
       K.panelCard({ ic: 'hand-coins', label: `Famílias de baixa renda (${fmtMes(L[P.cadLast])})`, value: D.agg('br', P.cadLast, M), base: D.agg('br', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
       K.panelCard({ ic: 'briefcase', label: `Estoque de empregos (${fmtMes(L[P.cgLast])})`, value: D.agg('est', P.cgLast, M), base: D.agg('est', P.cgFirst, M), baseLbl: gBase, polarity: 1 }) +
-      K.card({ ic: 'trending-up', label: 'Saldo de empregos acumulado', value: u.fmtSignedInt(D.sumOver('sal', P.idx, M)), vs: `Soma do período: ${perLbl}`, toneOverride: D.sumOver('sal', P.idx, M) >= 0 ? 'good' : 'bad' });
+      K.card({ ic: 'trending-up', label: 'Saldo de empregos acumulado', value: u.fmtSignedInt(D.sumOver('sal', P.idx, M)), vs: `Soma do período: ${perLbl}`, toneOverride: D.sumOver('sal', P.idx, M) >= 0 ? 'good' : 'bad' }) +
+      // indicadores de pobreza (acrescentados para a narrativa da apresentação)
+      K.panelCard({ ic: 'triangle-alert', label: `Famílias em pobreza (${fmtMes(L[P.cadLast])})`, value: D.agg('pob', P.cadLast, M), base: D.agg('pob', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
+      K.card({ ic: 'scale', label: `% das famílias do CadÚnico em pobreza`, value: fmtPct(D.agg('pctPob', P.cadLast, M)),
+        delta: D.agg('pctPob', P.cadLast, M) - D.agg('pctPob', P.cadFirst, M), unit: 'pp', polarity: -1, vs: `em relação a ${cBase}`, foot: `Posição em ${fmtMes(L[P.cadLast])}` });
     subs('geral', P);
 
     const idx = D.trimTail(P.idx, 'pob');
@@ -2618,10 +3254,10 @@ ODS.pages.panels = (() => {
 
   function init() {
     const sub = () => `${S.scopeLabel()} · ${S.period().label}`;
-    ODS.router.register('geral', { group: 'Painéis', title: 'Visão Geral', sub, render: renderGeral });
-    ODS.router.register('vuln', { group: 'Painéis', title: 'Vulnerabilidade Social', sub, render: renderVuln });
-    ODS.router.register('trab', { group: 'Painéis', title: 'Mercado de Trabalho', sub, render: renderTrab });
-    ODS.router.register('integ', { group: 'Análises', title: 'Análise Integrada', sub, render: renderInteg });
+    ODS.router.register('geral', { title: 'Panorama 2021–2026', sub, render: renderGeral });
+    ODS.router.register('vuln', { title: 'Vulnerabilidade social', sub, render: renderVuln });
+    ODS.router.register('trab', { title: 'Mercado de trabalho', sub, render: renderTrab });
+    ODS.router.register('integ', { title: 'Análise integrada', sub, render: renderInteg });
   }
   return { init };
 })();
@@ -2663,7 +3299,7 @@ ODS.pages.geo = (() => {
 
   function init() {
     $('#mapMetric').addEventListener('change', () => { if (map) map.update({ metric: $('#mapMetric').value, selected: S.get().muni, P: S.period() }); });
-    ODS.router.register('geo', { group: 'Painéis', title: 'Vulnerabilidade Geográfica', sub: () => `IPVS 2022 (SEADE) · ${S.scopeLabel()}`, render });
+    ODS.router.register('geo', { title: 'Mapa de vulnerabilidade', sub: () => `IPVS 2022 (SEADE) · ${S.scopeLabel()}`, render });
   }
   return { init };
 })();
@@ -2757,7 +3393,7 @@ ODS.pages.comp = (() => {
       $$('[data-evo-mode]').forEach(b => b.setAttribute('aria-checked', String(b === btn)));
       renderEvo(S.period());
     }));
-    ODS.router.register('comp', { group: 'Análises', title: 'Comparações', sub: () => `Ranking, lado a lado e evolução · ${S.period().label}`, render });
+    ODS.router.register('comp', { title: 'Comparação entre municípios', sub: () => `Ranking, lado a lado e evolução · ${S.period().label}`, render });
   }
   return { init };
 })();
@@ -2889,7 +3525,7 @@ ODS.pages.stats = (() => {
     $('#boxMetric').addEventListener('change', () => renderBox(S.period()));
     seg('data-stats-mode', v => { mode = v; renderTable(S.period(), S.munis()); });
     seg('data-corr-mode', v => { corrMode = v; renderCorr(S.period(), S.munis()); renderScatter(S.period(), S.munis()); });
-    ODS.router.register('stats', { group: 'Análises', title: 'Análise Estatística', sub: () => `${S.scopeLabel()} · ${S.period().label}`, render });
+    ODS.router.register('stats', { title: 'Análise estatística', sub: () => `${S.scopeLabel()} · ${S.period().label}`, render });
   }
   return { init };
 })();
@@ -2906,7 +3542,7 @@ ODS.pages.stats = (() => {
   /** Página "Metodologia": conteúdo estático + fatos calculados dos dados */
   function registerMethod() {
     ODS.router.register('metodo', {
-      group: 'Sobre', title: 'Metodologia', sub: 'Fontes, tratamento, métodos e limitações',
+      title: 'Metodologia', sub: 'Fontes, tratamento, métodos e limitações',
       render() {
         const el = $('#methodFacts'); if (!el) return;
         const P = D.period('');
@@ -2950,6 +3586,7 @@ ODS.pages.stats = (() => {
     $('#anoFilter').addEventListener('change', e => S.set({ ano: e.target.value }));
 
     // Páginas
+    ODS.pages.story.init();
     ODS.pages.exec.init();
     ODS.pages.panels.init();
     ODS.pages.geo.init();

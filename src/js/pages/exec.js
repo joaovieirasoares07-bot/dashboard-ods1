@@ -94,7 +94,7 @@ ODS.pages.exec = (() => {
     u.fillSelect($('#execRankMetric'), RANK_OPTS.map(k => ({ value: k, label: D.METRICS[k].label })), 'pctPob');
     $('#execRankMetric').addEventListener('change', () => ranking(S.period(), S.get().muni));
     ODS.router.register('exec', {
-      group: 'Visão executiva', title: 'Resumo Executivo',
+      title: 'Painel resumo',
       sub: () => `${S.scopeLabel()} · ${S.period().label}`,
       render,
     });

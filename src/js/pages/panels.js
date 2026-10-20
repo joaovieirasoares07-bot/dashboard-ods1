@@ -45,7 +45,11 @@ ODS.pages.panels = (() => {
       K.panelCard({ ic: 'users', label: `Famílias no CadÚnico (${fmtMes(L[P.cadLast])})`, value: D.agg('tot', P.cadLast, M), base: D.agg('tot', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
       K.panelCard({ ic: 'hand-coins', label: `Famílias de baixa renda (${fmtMes(L[P.cadLast])})`, value: D.agg('br', P.cadLast, M), base: D.agg('br', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
       K.panelCard({ ic: 'briefcase', label: `Estoque de empregos (${fmtMes(L[P.cgLast])})`, value: D.agg('est', P.cgLast, M), base: D.agg('est', P.cgFirst, M), baseLbl: gBase, polarity: 1 }) +
-      K.card({ ic: 'trending-up', label: 'Saldo de empregos acumulado', value: u.fmtSignedInt(D.sumOver('sal', P.idx, M)), vs: `Soma do período: ${perLbl}`, toneOverride: D.sumOver('sal', P.idx, M) >= 0 ? 'good' : 'bad' });
+      K.card({ ic: 'trending-up', label: 'Saldo de empregos acumulado', value: u.fmtSignedInt(D.sumOver('sal', P.idx, M)), vs: `Soma do período: ${perLbl}`, toneOverride: D.sumOver('sal', P.idx, M) >= 0 ? 'good' : 'bad' }) +
+      // indicadores de pobreza (acrescentados para a narrativa da apresentação)
+      K.panelCard({ ic: 'triangle-alert', label: `Famílias em pobreza (${fmtMes(L[P.cadLast])})`, value: D.agg('pob', P.cadLast, M), base: D.agg('pob', P.cadFirst, M), baseLbl: cBase, polarity: -1 }) +
+      K.card({ ic: 'scale', label: `% das famílias do CadÚnico em pobreza`, value: fmtPct(D.agg('pctPob', P.cadLast, M)),
+        delta: D.agg('pctPob', P.cadLast, M) - D.agg('pctPob', P.cadFirst, M), unit: 'pp', polarity: -1, vs: `em relação a ${cBase}`, foot: `Posição em ${fmtMes(L[P.cadLast])}` });
     subs('geral', P);
 
     const idx = D.trimTail(P.idx, 'pob');
@@ -155,10 +159,10 @@ ODS.pages.panels = (() => {
 
   function init() {
     const sub = () => `${S.scopeLabel()} · ${S.period().label}`;
-    ODS.router.register('geral', { group: 'Painéis', title: 'Visão Geral', sub, render: renderGeral });
-    ODS.router.register('vuln', { group: 'Painéis', title: 'Vulnerabilidade Social', sub, render: renderVuln });
-    ODS.router.register('trab', { group: 'Painéis', title: 'Mercado de Trabalho', sub, render: renderTrab });
-    ODS.router.register('integ', { group: 'Análises', title: 'Análise Integrada', sub, render: renderInteg });
+    ODS.router.register('geral', { title: 'Panorama 2021–2026', sub, render: renderGeral });
+    ODS.router.register('vuln', { title: 'Vulnerabilidade social', sub, render: renderVuln });
+    ODS.router.register('trab', { title: 'Mercado de trabalho', sub, render: renderTrab });
+    ODS.router.register('integ', { title: 'Análise integrada', sub, render: renderInteg });
   }
   return { init };
 })();

@@ -54,7 +54,8 @@ ODS.charts = (() => {
     const c = ODS.theme.colors();
     const d = Chart.defaults;
     d.font.family = "'IBM Plex Sans', system-ui, sans-serif";
-    d.font.size = 11.5;
+    const big = document.body.classList.contains('presenting'); // projetor: letras maiores
+    d.font.size = big ? 14 : 11.5;
     d.color = c.ink3;
     d.borderColor = c.grid;
     d.animation.duration = ODS.util.reducedMotion() ? 0 : 450;

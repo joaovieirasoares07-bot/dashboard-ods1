@@ -4,21 +4,25 @@ Dashboard analítico sobre pobreza e mercado de trabalho formal em sete municíp
 
 **Acesse:** https://joaovieirasoares07-bot.github.io/dashboard-ods1/
 
-## Páginas
+## Roteiro da apresentação
 
-| # | Página | Conteúdo |
+O dashboard serve de apoio visual a uma apresentação acadêmica. As abas formam uma história em 8 etapas. Cada uma abre com a **pergunta** que responde e uma faixa **"O que observar"**, com números calculados a partir dos dados.
+
+| Etapa | Página | Pergunta |
 |---|---|---|
-| 1 | Resumo Executivo | Resumo em texto, 8 KPIs com comparação anual, mini mapa, insights automáticos, ranking e tendências |
-| 2 | Visão Geral | Famílias no CadÚnico; admissões, desligamentos e saldo |
-| 3 | Vulnerabilidade Social | Faixas de renda, pobreza por município, tabela detalhada |
-| 4 | Mercado de Trabalho | Fluxos do CAGED e saldo por município |
-| 5 | Vulnerabilidade Geográfica | Mapa IPVS com zoom, tooltip e legenda interativa; composição por grupo |
-| 6 | Comparações | Ranking automático, comparação lado a lado, evolução temporal |
-| 7 | Análise Integrada | Índices base 100 de famílias e empregos; crescimento por município |
-| 8 | Análise Estatística | Estatística descritiva, boxplots, matriz de correlação e dispersão |
-| 9 | Metodologia | Fontes, tratamento, fórmulas, métodos, período e limitações |
+| 1 | Introdução | O que é o ODS 1? Qual o objetivo, quais dados, municípios e período? |
+| 2 | Panorama 2021–2026 | O que aconteceu entre 2021 e 2026? |
+| 3 | Vulnerabilidade social | Quantas famílias estão em situação de vulnerabilidade — e onde? |
+| 4 | Mercado de trabalho | Como evoluiu o emprego formal? |
+| 5 | Comparação entre municípios | Quais municípios apresentam maiores desafios? |
+| 6 | Mapa de vulnerabilidade | Onde a vulnerabilidade está concentrada no território? |
+| 7 | Análise integrada | O emprego formal acompanha a vulnerabilidade social? |
+| 8 | Conclusões | Seis achados com evidência, limites e mensagem final |
+| Apêndice | Painel resumo · Análise estatística · Metodologia | Para perguntas da banca |
 
-Filtros globais de **município** e **ano**. Também há **modo escuro**, **atalhos de teclado** (tecla `?`), **impressão/PDF** de todas as páginas e versão para **celular**. O arquivo funciona **offline**.
+**Durante a apresentação:** as setas `←` `→` (ou os botões no fim de cada página) avançam pelas etapas. A tecla `F` abre o **modo apresentação**, em tela cheia, com letras maiores e uma barra de navegação flutuante. A tecla `?` lista os atalhos.
+
+Filtros globais de **município** e **ano**. As Conclusões usam sempre o período completo e os 7 municípios. Também há modo escuro, impressão/PDF de todas as páginas e versão para celular. O arquivo funciona **offline**.
 
 ## Estrutura do projeto
 
@@ -26,12 +30,12 @@ Filtros globais de **município** e **ano**. Também há **modo escuro**, **atal
 ├── index.html              ← arquivo único gerado (publicado no GitHub Pages)
 ├── src/
 │   ├── index.html          ← estrutura das páginas (template)
-│   ├── partials/           ← conteúdo da Metodologia
+│   ├── partials/           ← Introdução, Conclusões e Metodologia
 │   ├── css/                ← tokens.css · base.css · components.css · pages.css · print.css
 │   └── js/
 │       ├── core/           ← util (formatação/estatística) · data · state · theme · charts · router
-│       ├── features/       ← kpis · insights · map · stats · compare · a11y
-│       ├── pages/          ← exec · panels · geo · comp · stats
+│       ├── features/       ← kpis · insights · map · stats · compare · a11y · story (narrativa)
+│       ├── pages/          ← story-pages (Introdução, Conclusões) · exec · panels · geo · comp · stats
 │       └── main.js
 ├── data/
 │   ├── raw/                ← planilhas originais e malha municipal

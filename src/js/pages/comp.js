@@ -86,7 +86,7 @@ ODS.pages.comp = (() => {
       $$('[data-evo-mode]').forEach(b => b.setAttribute('aria-checked', String(b === btn)));
       renderEvo(S.period());
     }));
-    ODS.router.register('comp', { group: 'Análises', title: 'Comparações', sub: () => `Ranking, lado a lado e evolução · ${S.period().label}`, render });
+    ODS.router.register('comp', { title: 'Comparação entre municípios', sub: () => `Ranking, lado a lado e evolução · ${S.period().label}`, render });
   }
   return { init };
 })();

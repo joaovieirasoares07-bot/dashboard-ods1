@@ -1,0 +1,84 @@
+<!-- =====================================================================
+     Introdução — responde: o que é o ODS 1, objetivo do dashboard, dados
+     usados, municípios e período. Mapa e números são preenchidos em
+     js/pages/story-pages.js.
+     ===================================================================== -->
+<div class="hero">
+  <div class="hero-text">
+    <p class="hero-kicker">Agenda 2030 · Objetivo de Desenvolvimento Sustentável 1</p>
+    <h2>Pobreza, vulnerabilidade social e emprego formal em 7 municípios da Grande São Paulo</h2>
+    <p class="hero-q"><svg class="ic"><use href="#i-quote"/></svg><span><strong>Pergunta do trabalho:</strong> como evoluíram a vulnerabilidade social e o emprego formal entre 2021 e 2026 — e onde estão os maiores desafios?</span></p>
+    <div class="hero-actions">
+      <button class="btn-primary" type="button" data-goto="geral">Começar <svg class="ic"><use href="#i-arrow-right"/></svg></button>
+      <span class="hero-hint">Use <kbd>←</kbd> <kbd>→</kbd> para avançar · <kbd>F</kbd> modo apresentação</span>
+    </div>
+  </div>
+  <div class="ods-badge" aria-label="ODS 1: Erradicação da Pobreza">
+    <span class="ods-n">1</span>
+    <span class="ods-name">Erradicação<br>da Pobreza</span>
+    <span class="ods-txt">Acabar com a pobreza em todas as suas formas, em todos os lugares.</span>
+  </div>
+</div>
+
+<div class="grid grid-3">
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-flag"/></svg>O que é o ODS 1</h3>
+    <p>Um dos 17 Objetivos de Desenvolvimento Sustentável da ONU (Agenda 2030). Entre suas metas:</p>
+    <ul class="ticks">
+      <li><b>1.1</b> erradicar a pobreza extrema;</li>
+      <li><b>1.2</b> reduzir pelo menos à metade a proporção de pessoas na pobreza;</li>
+      <li><b>1.3</b> garantir sistemas de proteção social — no Brasil, o Cadastro Único é a porta de entrada.</li>
+    </ul>
+  </article>
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-target"/></svg>Objetivo do dashboard</h3>
+    <ul class="ticks">
+      <li>Mostrar como evoluíram as famílias em situação de pobreza e o emprego formal;</li>
+      <li>Identificar os municípios com maiores desafios;</li>
+      <li>Relacionar emprego formal e vulnerabilidade social, com base apenas em dados públicos.</li>
+    </ul>
+  </article>
+  <article class="panel intro-card">
+    <h3><svg class="ic ic-title"><use href="#i-milestone"/></svg>Roteiro</h3>
+    <ol class="route">
+      <li><button type="button" data-goto="geral">Panorama 2021–2026</button></li><li><button type="button" data-goto="vuln">Vulnerabilidade social</button></li>
+      <li><button type="button" data-goto="trab">Mercado de trabalho</button></li><li><button type="button" data-goto="comp">Comparação entre municípios</button></li>
+      <li><button type="button" data-goto="geo">Mapa de vulnerabilidade</button></li><li><button type="button" data-goto="integ">Análise integrada</button></li>
+      <li><button type="button" data-goto="concl">Conclusões</button></li>
+    </ol>
+  </article>
+</div>
+
+<article class="panel">
+  <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-database"/></svg>Dados utilizados</h2><p class="sub">Três bases públicas, combinadas por município</p></div>
+    <button class="btn-link" type="button" data-goto="metodo">Ver metodologia <svg class="ic"><use href="#i-arrow-right"/></svg></button></header>
+  <div class="sources">
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-users"/></svg></span>
+      <div><h3>Cadastro Único</h3><p class="src-org">MDS — Ministério do Desenvolvimento e Assistência Social, Família e Combate à Fome</p><p>Famílias cadastradas por faixa de renda: pobreza, extrema pobreza, baixa renda e acima de 1/2 salário mínimo.</p><p class="src-meta">Mensal · jan/2021 – ago/2026</p></div></div>
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-briefcase"/></svg></span>
+      <div><h3>Novo CAGED</h3><p class="src-org">MTE — Ministério do Trabalho e Emprego</p><p>Emprego formal: estoque de vínculos, admissões, desligamentos e saldo.</p><p class="src-meta">Mensal · jan/2021 – jul/2026</p></div></div>
+    <div class="source"><span class="src-ic"><svg class="ic"><use href="#i-map"/></svg></span>
+      <div><h3>IPVS 2022</h3><p class="src-org">Fundação SEADE</p><p>Índice Paulista de Vulnerabilidade Social: domicílios em 6 grupos, da baixíssima à muito alta vulnerabilidade.</p><p class="src-meta">Retrato de 2022</p></div></div>
+  </div>
+</article>
+
+<div class="grid grid-intro">
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-map-pin"/></svg>Municípios analisados</h2><p class="sub">Região Metropolitana de São Paulo</p></div></header>
+    <div class="intro-munis">
+      <div class="map-host map-compact" id="introMap"></div>
+      <ul class="muni-list" id="introMunis"></ul>
+    </div>
+  </article>
+  <article class="panel">
+    <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-calendar-range"/></svg>Período estudado</h2><p class="sub" id="introPeriod"></p></div></header>
+    <ol class="timeline">
+      <li><span class="tl-date">jan/2021</span><span class="tl-txt">Início das séries mensais do CadÚnico e do CAGED</span></li>
+      <li><span class="tl-date">2022</span><span class="tl-txt">Retrato territorial do IPVS (SEADE)</span></li>
+      <li class="warn"><span class="tl-date">mar/2023</span><span class="tl-txt">CadÚnico passa a somar a extrema pobreza à pobreza — série ajustada</span></li>
+      <li class="warn"><span class="tl-date">jun/2023</span><span class="tl-txt">Reclassificação entre faixas de renda na base — leitura com cautela</span></li>
+      <li><span class="tl-date">jul/2026</span><span class="tl-txt">Último mês do CAGED</span></li>
+      <li><span class="tl-date">ago/2026</span><span class="tl-txt">Último mês do CadÚnico</span></li>
+    </ol>
+  </article>
+</div>

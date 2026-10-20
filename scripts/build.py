@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 
-CSS_FILES = ["tokens.css", "base.css", "components.css", "pages.css", "print.css"]
+CSS_FILES = ["tokens.css", "base.css", "components.css", "pages.css", "story.css", "print.css"]
 JS_FILES = [
     "core/util.js",      # formatação, estatística, DOM
     "core/data.js",      # agregações e períodos (com cache)
@@ -31,6 +31,8 @@ JS_FILES = [
     "features/stats.js",
     "features/compare.js",
     "features/a11y.js",
+    "features/story.js",   # narrativa: textos "O que observar" e conclusões
+    "pages/story-pages.js",  # Introdução e Conclusões
     "pages/exec.js",
     "pages/panels.js",   # Visão Geral, Vulnerabilidade, Trabalho, Integrada (painéis originais)
     "pages/geo.js",

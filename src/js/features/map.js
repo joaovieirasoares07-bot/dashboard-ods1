@@ -42,7 +42,8 @@ ODS.map = (() => {
       s += '<g>' + G.neigh.map(n => `<path d="${n.d}" class="neigh"/>`).join('') + '</g><g>';
       D.MUNIS.forEach(m => {
         const v = vals[m];
-        s += `<path d="${G.ours[m].d}" data-m="${esc(m)}" data-k="${classOf(v, br)}" class="muni${selected && selected !== m ? ' dim' : ''}" fill="${c.seq[classOf(v, br)]}"
+        const fill = opts.plain ? ODS.charts.muniColor(m) : c.seq[classOf(v, br)]; // plain: cor fixa de cada município (Introdução)
+        s += `<path d="${G.ours[m].d}" data-m="${esc(m)}" data-k="${classOf(v, br)}" class="muni${selected && selected !== m ? ' dim' : ''}" fill="${fill}"
           tabindex="${compact ? -1 : 0}" role="button" aria-pressed="${selected === m}"
           aria-label="${esc(m)}: ${fmtPct(v)}, ${rank.indexOf(m) + 1}º de 7. Enter para ${selected === m ? 'remover o filtro' : 'filtrar o dashboard'}."/>`;
       });
@@ -52,7 +53,7 @@ ODS.map = (() => {
       G.neigh.forEach(n => { const [x, y] = n.c; if (x > 30 && x < G.w - 30 && y > 30 && y < G.h - 30) s += `<text x="${x}" y="${y}" class="nlbl" data-px="10">${esc(n.n)}</text>`; });
       D.MUNIS.forEach(m => {
         const [x, y] = G.ours[m].c;
-        s += `<text x="${x}" y="${y}" class="mlbl" data-px="11.5">${esc(m)}</text><text x="${x}" y="${y}" class="mval" data-px="11">${fmtPct(vals[m])}</text>`;
+        s += `<text x="${x}" y="${y}" class="mlbl" data-px="11.5">${esc(m)}</text>` + (opts.plain ? '' : `<text x="${x}" y="${y}" class="mval" data-px="11">${fmtPct(vals[m])}</text>`);
       });
       s += '</g></svg>';
       if (!compact) s += `<div class="map-zoom" role="group" aria-label="Zoom do mapa">

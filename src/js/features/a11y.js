@@ -3,7 +3,8 @@
    para leitores de tela e diálogo de ajuda.
 
    Atalhos (ignorados enquanto se digita em campos):
-     1–9 páginas · ←/→ página anterior/próxima · M município · A ano
+     1–8 etapas do roteiro · 9 painel resumo · ←/→ etapa anterior/próxima
+     F modo apresentação · M município · A ano
      L limpar filtros · D modo escuro · P imprimir · ? ajuda
      + − 0 zoom do mapa (na página do mapa)
    ===================================================================== */
@@ -49,6 +50,7 @@ ODS.a11y = (() => {
       case 'a': case 'A': e.preventDefault(); focusSelect('anoFilter'); break;
       case 'l': case 'L': ODS.state.set({ muni: '', ano: '' }); announce('Filtros limpos'); break;
       case 'd': case 'D': ODS.theme.toggle(); break;
+      case 'f': case 'F': e.preventDefault(); ODS.router.togglePresenting(); break;
       case 'p': case 'P': e.preventDefault(); window.print(); break;
       case '?': e.preventDefault(); $('#helpDialog').open ? closeHelp() : openHelp(); break;
       case '+': case '=': ODS.pages && ODS.pages.geoZoom && ODS.pages.geoZoom(1.5); break;
@@ -70,6 +72,7 @@ ODS.a11y = (() => {
       if (a === 'help') openHelp();
       if (a === 'close-help') closeHelp();
       if (a === 'print') window.print();
+      if (a === 'present') ODS.router.togglePresenting();
     });
     $('#helpDialog').addEventListener('click', e => { if (e.target.id === 'helpDialog') closeHelp(); }); // clique fora fecha
   }

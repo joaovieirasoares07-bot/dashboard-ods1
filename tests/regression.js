@@ -15,7 +15,7 @@ const { chromium } = require('playwright');
 
 const FILE = 'file://' + path.resolve(__dirname, '..', 'index.html');
 const SHOTS = process.argv.includes('--shots') ? process.argv[process.argv.indexOf('--shots') + 1] : null;
-const PAGES = ['exec', 'geral', 'vuln', 'trab', 'geo', 'comp', 'integ', 'stats', 'metodo'];
+const PAGES = ['intro', 'geral', 'vuln', 'trab', 'comp', 'geo', 'integ', 'concl', 'exec', 'stats', 'metodo'];
 const CHARTS = {
   geral: ['chartCadLine', 'chartCagedLine'], vuln: ['chartVulnBar', 'chartFaixaBar'], trab: ['chartAdmDesl', 'chartSaldoBar'],
   geo: ['chartIpvs'], comp: ['chartRank', 'chartSbsPob', 'chartSbsEst', 'chartEvo'], integ: ['chartIndice'],
@@ -46,6 +46,29 @@ const ok = (cond, msg) => { console.log(`${cond ? '  ✓' : '  ✗'} ${msg}`); i
     ok(active && charts.length === (CHARTS[id] || []).length, `${id}: ativa, ${charts.length}/${(CHARTS[id] || []).length} gráficos`);
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/${id}.png`, fullPage: true });
   }
+  console.log('1b. Narrativa');
+  await go('intro');
+  ok(await page.$$eval('#introMunis li', e => e.length) === 7 && await page.$$eval('#introMap path.muni', e => e.length) === 7, 'intro: 7 municípios na lista e no mapa');
+  ok(await page.$eval('#page-intro .story-nav .sn.next', e => e.dataset.goto) === 'geral', 'intro: botão "Próxima" leva ao Panorama');
+  for (const id of ['geral', 'vuln', 'trab', 'comp', 'geo', 'integ']) {
+    await go(id);
+    ok(await page.$$eval(`#guide-${id} li`, e => e.length) >= 3, `${id}: faixa "O que observar" com 3 frases`);
+  }
+  await go('concl');
+  ok(await page.$$eval('#conclList .concl', e => e.length) === 6, 'concl: 6 conclusões');
+  ok((await text('#conclList')).includes('+67,5%'), 'concl: usa período completo (+67,5% famílias no CadÚnico)');
+  await go('intro');
+  await page.keyboard.press('ArrowRight'); await page.waitForTimeout(200);
+  ok(await page.$eval('#page-geral', e => e.classList.contains('active')), 'Seta → avança para a etapa 2');
+  ok((await page.$eval('#pageEyebrow', e => e.textContent)) === 'Etapa 2 de 8', 'Cabeçalho mostra "Etapa 2 de 8"');
+  await page.keyboard.press('f'); await page.waitForTimeout(300);
+  ok(await page.evaluate(() => document.body.classList.contains('presenting')) && await page.$eval('#presentBar', e => !e.hidden), 'Tecla F ativa o modo apresentação');
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/present-geral.png` });
+  await page.click('#presentBar [data-story="next"]'); await page.waitForTimeout(250);
+  ok(await page.$eval('#page-vuln', e => e.classList.contains('active')), 'Barra do modo apresentação avança etapa');
+  await page.keyboard.press('f'); await page.waitForTimeout(250);
+  ok(await page.evaluate(() => !document.body.classList.contains('presenting')), 'Tecla F sai do modo apresentação');
+
   await go('exec');
   ok(await page.$$eval('#kpiGrid .kpi', e => e.length) === 8, 'exec: 8 KPIs');
   ok(await page.$$eval('#insightsList .insight', e => e.length) >= 5, 'exec: ≥ 5 insights');
@@ -56,7 +79,7 @@ const ok = (cond, msg) => { console.log(`${cond ? '  ✓' : '  ✗'} ${msg}`); i
   console.log('2. Números de referência (sem filtro)');
   await go('geral');
   const g = await text('#cards-geral');
-  ok(g.includes('300.517') && g.includes('796.286'), 'Visão Geral: 300.517 famílias e 796.286 empregos');
+  ok(g.includes('300.517') && g.includes('796.286') && g.includes('112.504'), 'Panorama: 300.517 famílias, 796.286 empregos, 112.504 em pobreza');
   await go('vuln');
   const v = await text('#cards-vuln');
   ok(['112.504', '63.938', '124.075'].every(n => v.includes(n)), 'Vulnerabilidade: pobreza 112.504, baixa renda 63.938, acima 124.075');
@@ -92,7 +115,7 @@ const ok = (cond, msg) => { console.log(`${cond ? '  ✓' : '  ✗'} ${msg}`); i
   await page.mouse.move(5, 5);
   await page.locator('body').click({ position: { x: 600, y: 5 } }).catch(() => {});
   await page.keyboard.press('3'); await page.waitForTimeout(200);
-  ok(await page.$eval('#page-vuln', e => e.classList.contains('active')), 'Tecla 3 abre Vulnerabilidade Social');
+  ok(await page.$eval('#page-vuln', e => e.classList.contains('active')), 'Tecla 3 abre a etapa 3 (Vulnerabilidade social)');
   await page.keyboard.press('?'); await page.waitForTimeout(100);
   ok(await page.$eval('#helpDialog', e => e.open), 'Tecla ? abre a ajuda');
   await page.keyboard.press('Escape');
@@ -124,7 +147,7 @@ const ok = (cond, msg) => { console.log(`${cond ? '  ✓' : '  ✗'} ${msg}`); i
     await m.click(`.nav-item[data-page="${id}"]`); await m.waitForTimeout(200);
     const w = await m.evaluate(() => document.documentElement.scrollWidth);
     ok(w <= 390, `${id}: largura ${w}px`);
-    if (SHOTS && ['exec', 'geo', 'stats', 'comp'].includes(id)) await m.screenshot({ path: `${SHOTS}/m-${id}.png`, fullPage: true });
+    if (SHOTS && ['intro', 'geral', 'concl', 'geo'].includes(id)) await m.screenshot({ path: `${SHOTS}/m-${id}.png`, fullPage: true });
   }
 
   console.log('7. Erros');

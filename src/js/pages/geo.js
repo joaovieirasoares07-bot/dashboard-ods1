@@ -34,7 +34,7 @@ ODS.pages.geo = (() => {
 
   function init() {
     $('#mapMetric').addEventListener('change', () => { if (map) map.update({ metric: $('#mapMetric').value, selected: S.get().muni, P: S.period() }); });
-    ODS.router.register('geo', { group: 'Painéis', title: 'Vulnerabilidade Geográfica', sub: () => `IPVS 2022 (SEADE) · ${S.scopeLabel()}`, render });
+    ODS.router.register('geo', { title: 'Mapa de vulnerabilidade', sub: () => `IPVS 2022 (SEADE) · ${S.scopeLabel()}`, render });
   }
   return { init };
 })();

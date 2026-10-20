@@ -7,7 +7,7 @@
   :root { --bg: #fff; }
   body { background: #fff; font-size: 12px; }
   .app { display: block; }
-  .sidebar, .filters, .skip-link, .map-zoom, .btn-link, .seg, .site-foot a, .dialog, .map-tip, .select-wrap { display: none !important; }
+  .sidebar, .filters, .skip-link, .story-nav, .present-bar, .progress, .hero-actions, .map-zoom, .btn-link, .seg, .site-foot a, .dialog, .map-tip, .select-wrap { display: none !important; }
   .topbar { position: static; padding: 0 0 10px; border: 0; background: none; backdrop-filter: none; }
   .print-info { display: block; font-size: 12px; color: var(--ink-2); width: 100%; }
   main { padding: 0; max-width: none; }
