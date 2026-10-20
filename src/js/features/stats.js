@@ -83,5 +83,12 @@ ODS.stats = (() => {
     return `rgb(${mix.join(',')})`;
   }
 
-  return { VARS, CORR_VARS, CORR_SHORT, values, describeAll, pairs, matrix, corrColor };
+  /** Cor do texto com o maior contraste sobre o fundo rgb(...) (WCAG) */
+  function corrText(rgb) {
+    const [r, g, b] = rgb.match(/\d+/g).map(Number).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; });
+    const L = .2126 * r + .7152 * g + .0722 * b;
+    return (1.05 / (L + .05)) >= ((L + .05) / (0.0137 + .05)) ? '#FFFFFF' : '#14181F';
+  }
+
+  return { VARS, CORR_VARS, CORR_SHORT, values, describeAll, pairs, matrix, corrColor, corrText };
 })();

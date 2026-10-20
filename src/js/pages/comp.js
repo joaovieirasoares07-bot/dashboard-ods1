@@ -28,10 +28,9 @@ ODS.pages.comp = (() => {
     const ca = CH.muniColor(a), cb = CH.muniColor(b);
     $('#sbsSub').textContent = `${P.label} · ● indica o melhor valor em cada linha`;
     const rows = C.sbsRows(a, b, P);
-    $('#sbsTable').innerHTML =
-      `<div class="h">Indicador</div><div class="h a"><span class="dot" style="background:${ca}"></span>${esc(a)}</div><div class="h b"><span class="dot" style="background:${cb}"></span>${esc(b)}</div><div class="h d" style="justify-content:flex-end">Diferença</div>` +
-      rows.map(r => `<div class="lab">${esc(r.label)}</div><div class="va${r.win === 'a' ? ' win' : ''}">${r.a}</div><div class="vb${r.win === 'b' ? ' win' : ''}">${r.b}</div><div class="vd">${r.diff}</div>`).join('');
-    $('#sbsTable').setAttribute('role', 'table');
+    $('#sbsTable').innerHTML = `<table class="sbs-t"><caption class="sr-only">Comparação entre ${esc(a)} e ${esc(b)}; o melhor valor de cada linha está marcado</caption>
+      <thead><tr><th scope="col">Indicador</th><th scope="col"><span class="dot" style="background:${ca}"></span>${esc(a)}</th><th scope="col"><span class="dot" style="background:${cb}"></span>${esc(b)}</th><th scope="col" class="d">Diferença</th></tr></thead>
+      <tbody>${rows.map(r => `<tr><th scope="row">${esc(r.label)}</th><td class="${r.win === 'a' ? 'win' : ''}">${r.a}${r.win === 'a' ? '<span class="sr-only"> (melhor)</span>' : ''}</td><td class="${r.win === 'b' ? 'win' : ''}">${r.b}${r.win === 'b' ? '<span class="sr-only"> (melhor)</span>' : ''}</td><td class="d">${r.diff}</td></tr>`).join('')}</tbody></table>`;
 
     const idx = D.trimTail(P.idx, 'pob'), idg = P.cgIdx;
     const lab = i => fmtMesCurto(D.L[i]);

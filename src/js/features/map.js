@@ -72,7 +72,7 @@ ODS.map = (() => {
       const c = ODS.theme.colors();
       const counts = [0, 0, 0, 0, 0]; Object.values(vals).forEach(v => counts[classOf(v, br)]++);
       legendHost.innerHTML = `<p class="lg-title">${esc(D.IPVS_METRICS[metric].label)}</p>
-        <div class="lg-scale" role="list">${c.seq.map((col, k) => `<button type="button" class="lg-bin" data-k="${k}" role="listitem" aria-label="${br[k]} a ${br[k + 1]}%: ${counts[k]} município(s)">
+        <div class="lg-scale" role="group" aria-label="Classes da legenda — passe o mouse ou foque para destacar os municípios">${c.seq.map((col, k) => `<button type="button" class="lg-bin" data-k="${k}" aria-label="${br[k]} a ${br[k + 1]}%: ${counts[k]} município(s)">
           <i style="background:${col}"></i><span>${br[k]}–${br[k + 1]}% · <b>${counts[k]}</b></span></button>`).join('')}</div>
         <p class="lg-other"><i></i>Outros municípios (sem dados no recorte)</p>`;
       legendHost.querySelectorAll('.lg-bin').forEach(b => {

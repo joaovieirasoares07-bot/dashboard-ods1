@@ -58,9 +58,8 @@ ODS.pages.stats = (() => {
       h += `<div class="lbl">${esc(ST.CORR_SHORT[a])}</div>`;
       vars.forEach((b, j) => {
         const { r, n: nn } = M.r[i][j];
-        const bg = ST.corrColor(r, dark), strong = isNum(r) && Math.abs(r) > .55;
-        const fg = strong ? '#fff' : 'var(--ink)';
-        if (i === j) { h += `<div class="c" style="background:${bg};color:${fg}">1</div>`; return; }
+        const bg = ST.corrColor(r, dark), fg = ST.corrText(bg);
+        if (i === j) { h += `<div class="c" style="background:${bg};color:${fg}" aria-hidden="true">1</div>`; return; }
         const active = (pair[0] === a && pair[1] === b) || (pair[0] === b && pair[1] === a);
         h += `<button type="button" class="c${active ? ' is-active' : ''}" data-a="${a}" data-b="${b}" style="background:${bg};color:${fg}"
           aria-label="${esc(ST.CORR_SHORT[a])} × ${esc(ST.CORR_SHORT[b])}: r = ${isNum(r) ? fmt2(r) : 'indefinido'}, n = ${nn}, correlação ${u.corrStrength(r)}">${isNum(r) ? fmt2(r) : '—'}<small>n=${nn}</small></button>`;
