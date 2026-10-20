@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Erradicação da Pobreza · ODS 1</title>
+<meta name="description" content="Dashboard de pobreza e mercado de trabalho (CadÚnico, CAGED e IPVS 2022) para 7 municípios paulistas, 2021–2026.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<!-- @inline-css -->
+</head>
+<body>
+<!-- @inline-icons -->
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+<div class="app">
+  <!-- ============ NAVEGAÇÃO LATERAL (vira barra horizontal no celular) ============ -->
+  <aside class="sidebar" aria-label="Navegação do dashboard">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><svg class="ic"><use href="#i-hand-coins"/></svg></div>
+      <div class="brand-text">
+        <strong>Erradicação da Pobreza</strong>
+        <span>ODS 1 · CadÚnico, CAGED e IPVS</span>
+      </div>
+      <button class="icon-btn only-mobile" type="button" data-action="theme" aria-label="Alternar modo escuro">
+        <svg class="ic ic-sun"><use href="#i-sun"/></svg><svg class="ic ic-moon"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+
+    <nav class="nav" role="tablist" aria-label="Páginas" aria-orientation="vertical">
+      <p class="nav-group">Visão executiva</p>
+      <button class="nav-item" role="tab" id="tab-exec" aria-controls="page-exec" data-page="exec"><svg class="ic"><use href="#i-house"/></svg><span>Resumo Executivo</span><kbd>1</kbd></button>
+      <p class="nav-group">Painéis</p>
+      <button class="nav-item" role="tab" id="tab-geral" aria-controls="page-geral" data-page="geral"><svg class="ic"><use href="#i-layout-dashboard"/></svg><span>Visão Geral</span><kbd>2</kbd></button>
+      <button class="nav-item" role="tab" id="tab-vuln" aria-controls="page-vuln" data-page="vuln"><svg class="ic"><use href="#i-users"/></svg><span>Vulnerabilidade Social</span><kbd>3</kbd></button>
+      <button class="nav-item" role="tab" id="tab-trab" aria-controls="page-trab" data-page="trab"><svg class="ic"><use href="#i-briefcase"/></svg><span>Mercado de Trabalho</span><kbd>4</kbd></button>
+      <button class="nav-item" role="tab" id="tab-geo" aria-controls="page-geo" data-page="geo"><svg class="ic"><use href="#i-map"/></svg><span>Vulnerabilidade Geográfica</span><kbd>5</kbd></button>
+      <p class="nav-group">Análises</p>
+      <button class="nav-item" role="tab" id="tab-comp" aria-controls="page-comp" data-page="comp"><svg class="ic"><use href="#i-git-compare"/></svg><span>Comparações</span><kbd>6</kbd></button>
+      <button class="nav-item" role="tab" id="tab-integ" aria-controls="page-integ" data-page="integ"><svg class="ic"><use href="#i-activity"/></svg><span>Análise Integrada</span><kbd>7</kbd></button>
+      <button class="nav-item" role="tab" id="tab-stats" aria-controls="page-stats" data-page="stats"><svg class="ic"><use href="#i-sigma"/></svg><span>Análise Estatística</span><kbd>8</kbd></button>
+      <p class="nav-group">Sobre</p>
+      <button class="nav-item" role="tab" id="tab-metodo" aria-controls="page-metodo" data-page="metodo"><svg class="ic"><use href="#i-book-open"/></svg><span>Metodologia</span><kbd>9</kbd></button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <button class="side-btn" type="button" data-action="theme" aria-label="Alternar modo escuro">
+        <svg class="ic ic-sun"><use href="#i-sun"/></svg><svg class="ic ic-moon"><use href="#i-moon"/></svg><span class="theme-label">Modo escuro</span><kbd>D</kbd>
+      </button>
+      <button class="side-btn" type="button" data-action="help"><svg class="ic"><use href="#i-keyboard"/></svg><span>Atalhos de teclado</span><kbd>?</kbd></button>
+      <button class="side-btn" type="button" data-action="print"><svg class="ic"><use href="#i-printer"/></svg><span>Imprimir / PDF</span><kbd>P</kbd></button>
+    </div>
+  </aside>
+
+  <!-- ============ ÁREA PRINCIPAL ============ -->
+  <div class="main-col">
+    <header class="topbar">
+      <div class="page-heading">
+        <p class="eyebrow" id="pageEyebrow">Visão executiva</p>
+        <h1 id="pageTitle">Resumo Executivo</h1>
+        <p class="page-sub" id="pageSub"></p>
+      </div>
+      <div class="filters" role="group" aria-label="Filtros">
+        <label class="field">
+          <span class="field-label"><svg class="ic"><use href="#i-map-pin"/></svg>Município <kbd>M</kbd></span>
+          <span class="select-wrap"><select id="muniFilter"><option value="">Todos os municípios</option></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+        </label>
+        <label class="field">
+          <span class="field-label"><svg class="ic"><use href="#i-calendar-range"/></svg>Ano <kbd>A</kbd></span>
+          <span class="select-wrap"><select id="anoFilter"><option value="">Todos os anos</option></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+        </label>
+      </div>
+      <p class="print-info" id="printInfo"></p>
+    </header>
+
+    <main id="main" tabindex="-1">
+
+      <!-- ===== 1. RESUMO EXECUTIVO ===== -->
+      <section class="page" id="page-exec" role="tabpanel" aria-labelledby="tab-exec" data-title="Resumo Executivo">
+        <div class="summary-banner" id="execSummary" aria-live="polite"></div>
+        <div class="kpi-grid" id="kpiGrid"></div>
+        <div class="grid grid-exec">
+          <div class="stack-col">
+            <article class="panel">
+              <header class="panel-head"><div><h2>Mapa de vulnerabilidade</h2><p class="sub">IPVS 2022 · % de domicílios em vulnerabilidade média, alta ou muito alta · clique para filtrar</p></div>
+                <button class="btn-link" type="button" data-goto="geo">Mapa completo <svg class="ic"><use href="#i-arrow-right"/></svg></button></header>
+              <div class="map-host map-compact" id="execMap"></div>
+              <div class="map-legend" id="execMapLegend"></div>
+            </article>
+            <article class="panel">
+              <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-trophy"/></svg>Ranking dos municípios</h2><p class="sub" id="execRankSub"></p></div>
+                <span class="select-wrap sm"><select id="execRankMetric" aria-label="Indicador do ranking"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
+              <ol class="rank-list" id="execRank"></ol>
+            </article>
+          </div>
+          <article class="panel">
+            <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-sparkles"/></svg>Principais Insights</h2><p class="sub">Gerados automaticamente a partir dos dados filtrados</p></div></header>
+            <ol class="insights" id="insightsList"></ol>
+          </article>
+        </div>
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-trending-up"/></svg>Tendências</h2><p class="sub" id="execTrendSub"></p></div>
+            <button class="btn-link" type="button" data-goto="comp">Comparar municípios <svg class="ic"><use href="#i-arrow-right"/></svg></button></header>
+          <div class="spark-grid" id="execTrends"></div>
+        </article>
+      </section>
+
+      <!-- ===== 2. VISÃO GERAL ===== -->
+      <section class="page" id="page-geral" role="tabpanel" aria-labelledby="tab-geral" data-title="Visão Geral">
+        <div class="cards" id="cards-geral"></div>
+        <div class="grid grid-2">
+          <article class="panel"><header class="panel-head"><div><h2>Famílias no CadÚnico</h2><p class="sub" data-sub="mun"></p></div></header>
+            <div class="chartwrap"><canvas id="chartCadLine"></canvas></div></article>
+          <article class="panel"><header class="panel-head"><div><h2>Admissões, Desligamentos e Saldo</h2><p class="sub" data-sub="mun"></p></div></header>
+            <div class="chartwrap"><canvas id="chartCagedLine"></canvas></div></article>
+        </div>
+        <p class="note"><svg class="ic"><use href="#i-info"/></svg><span>A série de famílias soma a categoria "extrema pobreza" à de "pobreza" nos meses até fev/2023, para compensar a mudança de metodologia do CadÚnico ocorrida em mar/2023 (quando as duas faixas foram unificadas). Sem esse ajuste, a série mostraria um salto artificial.</span></p>
+      </section>
+
+      <!-- ===== 3. VULNERABILIDADE SOCIAL ===== -->
+      <section class="page" id="page-vuln" role="tabpanel" aria-labelledby="tab-vuln" data-title="Vulnerabilidade Social">
+        <div class="cards" id="cards-vuln"></div>
+        <div class="grid grid-2">
+          <article class="panel"><header class="panel-head"><div><h2>Famílias em pobreza por município</h2><p class="sub" data-sub="cadMes"></p></div></header>
+            <div class="chartwrap"><canvas id="chartVulnBar"></canvas></div></article>
+          <article class="panel"><header class="panel-head"><div><h2>Famílias por faixa de renda</h2><p class="sub" data-sub="faixa"></p></div></header>
+            <div class="chartwrap"><canvas id="chartFaixaBar"></canvas></div></article>
+        </div>
+        <article class="panel"><header class="panel-head"><div><h2>Detalhe por município</h2><p class="sub" data-sub="cadMes"></p></div></header>
+          <div class="table-wrap"><table id="tableVuln"><caption class="sr-only">Famílias por faixa de renda em cada município</caption><thead><tr><th scope="col">Município</th><th scope="col">Pobreza</th><th scope="col">Baixa renda</th><th scope="col">Acima 1/2 SM</th><th scope="col">% em pobreza</th></tr></thead><tbody></tbody></table></div>
+        </article>
+      </section>
+
+      <!-- ===== 4. MERCADO DE TRABALHO ===== -->
+      <section class="page" id="page-trab" role="tabpanel" aria-labelledby="tab-trab" data-title="Mercado de Trabalho">
+        <div class="cards" id="cards-trab"></div>
+        <div class="grid grid-2">
+          <article class="panel"><header class="panel-head"><div><h2>Admissões vs. Desligamentos</h2><p class="sub" data-sub="mun"></p></div></header>
+            <div class="chartwrap"><canvas id="chartAdmDesl"></canvas></div></article>
+          <article class="panel"><header class="panel-head"><div><h2>Saldo de empregos por município</h2><p class="sub" data-sub="cgMes"></p></div></header>
+            <div class="chartwrap"><canvas id="chartSaldoBar"></canvas></div></article>
+        </div>
+      </section>
+
+      <!-- ===== 5. VULNERABILIDADE GEOGRÁFICA ===== -->
+      <section class="page" id="page-geo" role="tabpanel" aria-labelledby="tab-geo" data-title="Vulnerabilidade Geográfica">
+        <article class="panel">
+          <header class="panel-head"><div><h2>Mapa de vulnerabilidade social (IPVS 2022)</h2><p class="sub">Domicílios por município · clique num município para filtrar o dashboard</p></div>
+            <span class="select-wrap sm"><select id="mapMetric" aria-label="Indicador do mapa"><option value="vuln">Média + alta + muito alta</option><option value="alta">Alta + muito alta</option><option value="malta">Muito alta</option></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
+          <div class="map-layout">
+            <div>
+              <div class="map-host" id="ipvsMap"></div>
+              <div class="map-legend" id="mapLegend"></div>
+            </div>
+            <div class="map-detail" id="mapDetail" aria-live="polite"></div>
+          </div>
+          <p class="note"><svg class="ic"><use href="#i-info"/></svg><span>Fonte: SEADE, IPVS 2022 (domicílios particulares permanentes ocupados). Limites municipais: IBGE. O mapa do SEADE mostra cada setor censitário; com a planilha disponível, o nível de detalhe aqui é o município. Use a roda do mouse, os botões ou o gesto de pinça para dar zoom e arraste para mover.</span></p>
+        </article>
+        <article class="panel"><header class="panel-head"><div><h2>% de domicílios em vulnerabilidade média/alta/muito alta</h2><p class="sub">Fonte: SEADE — Índice Paulista de Vulnerabilidade Social 2022, por município</p></div></header>
+          <div class="chartwrap" style="height:300px"><canvas id="chartIpvs"></canvas></div></article>
+        <article class="panel"><header class="panel-head"><div><h2>Detalhe IPVS por município</h2></div></header>
+          <div class="table-wrap"><table id="tableIpvs"><caption class="sr-only">Domicílios por grupo de vulnerabilidade em cada município</caption><thead><tr><th scope="col">Município</th><th scope="col">Domicílios</th><th scope="col">Vuln. média</th><th scope="col">Vuln. alta</th><th scope="col">Vuln. muito alta</th><th scope="col">% vulnerável</th></tr></thead><tbody></tbody></table></div>
+        </article>
+      </section>
+
+      <!-- ===== 6. COMPARAÇÕES ===== -->
+      <section class="page" id="page-comp" role="tabpanel" aria-labelledby="tab-comp" data-title="Comparações">
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-trophy"/></svg>Ranking automático</h2><p class="sub" id="rankSub"></p></div>
+            <span class="select-wrap sm"><select id="rankMetric" aria-label="Indicador do ranking"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
+          <div class="chartwrap" style="height:320px"><canvas id="chartRank"></canvas></div>
+        </article>
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-scale"/></svg>Comparação lado a lado</h2><p class="sub" id="sbsSub"></p></div>
+            <div class="inline-selects">
+              <span class="select-wrap sm"><select id="sbsA" aria-label="Primeiro município"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+              <span class="vs">vs</span>
+              <span class="select-wrap sm"><select id="sbsB" aria-label="Segundo município"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+            </div></header>
+          <div class="sbs" id="sbsTable"></div>
+          <div class="grid grid-2 tight">
+            <div><p class="mini-title">Famílias em pobreza (índice, início do período = 100)</p><div class="chartwrap sm"><canvas id="chartSbsPob"></canvas></div></div>
+            <div><p class="mini-title">Estoque de empregos (índice, início do período = 100)</p><div class="chartwrap sm"><canvas id="chartSbsEst"></canvas></div></div>
+          </div>
+        </article>
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-trending-up"/></svg>Evolução temporal por município</h2><p class="sub" id="evoSub"></p></div>
+            <div class="inline-selects">
+              <span class="select-wrap sm"><select id="evoMetric" aria-label="Indicador da evolução"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+              <div class="seg" role="radiogroup" aria-label="Escala">
+                <button type="button" role="radio" aria-checked="true" data-evo-mode="idx">Índice 100</button>
+                <button type="button" role="radio" aria-checked="false" data-evo-mode="abs">Absoluto</button>
+              </div>
+            </div></header>
+          <div class="chartwrap" style="height:360px"><canvas id="chartEvo"></canvas></div>
+        </article>
+      </section>
+
+      <!-- ===== 7. ANÁLISE INTEGRADA ===== -->
+      <section class="page" id="page-integ" role="tabpanel" aria-labelledby="tab-integ" data-title="Análise Integrada">
+        <article class="panel"><header class="panel-head"><div><h2>Famílias no CadÚnico vs. Estoque de empregos</h2><p class="sub" data-sub="indice"></p></div></header>
+          <div class="chartwrap"><canvas id="chartIndice"></canvas></div></article>
+        <article class="panel"><header class="panel-head"><div><h2 data-sub="integ">Crescimento por município</h2></div></header>
+          <div class="table-wrap"><table id="tableInteg"><caption class="sr-only">Crescimento de famílias no CadÚnico e do estoque de empregos por município</caption><thead><tr><th scope="col">Município</th><th scope="col">Famílias no CadÚnico</th><th scope="col">Variação</th><th scope="col">Estoque de empregos</th><th scope="col">Variação</th></tr></thead><tbody></tbody></table></div>
+        </article>
+      </section>
+
+      <!-- ===== 8. ANÁLISE ESTATÍSTICA ===== -->
+      <section class="page" id="page-stats" role="tabpanel" aria-labelledby="tab-stats" data-title="Análise Estatística">
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-sigma"/></svg>Estatística descritiva</h2><p class="sub" id="statsSub"></p></div>
+            <div class="seg" role="radiogroup" aria-label="Unidade de análise">
+              <button type="button" role="radio" aria-checked="true" data-stats-mode="time">Ao longo do tempo</button>
+              <button type="button" role="radio" aria-checked="false" data-stats-mode="cross">Entre municípios</button>
+            </div></header>
+          <div class="table-wrap"><table class="stats-table" id="statsTable"><caption class="sr-only">Estatísticas descritivas dos indicadores</caption></table></div>
+          <p class="note"><svg class="ic"><use href="#i-info"/></svg><span id="statsNote"></span></p>
+        </article>
+        <article class="panel">
+          <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-chart-no-axes-column"/></svg>Distribuição (boxplot)</h2><p class="sub" id="boxSub"></p></div>
+            <span class="select-wrap sm"><select id="boxMetric" aria-label="Indicador do boxplot"></select><svg class="ic chev" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></header>
+          <div class="chartwrap" style="height:340px"><canvas id="chartBox"></canvas></div>
+        </article>
+        <div class="grid grid-2">
+          <article class="panel">
+            <header class="panel-head"><div><h2>Matriz de correlação</h2><p class="sub" id="corrSub"></p></div>
+              <div class="seg" role="radiogroup" aria-label="Base da correlação">
+                <button type="button" role="radio" aria-checked="true" data-corr-mode="diff">Variação mensal</button>
+                <button type="button" role="radio" aria-checked="false" data-corr-mode="level">Níveis</button>
+              </div></header>
+            <div class="corr" id="corrMatrix"></div>
+            <div class="corr-legend" id="corrLegend"></div>
+          </article>
+          <article class="panel">
+            <header class="panel-head"><div><h2><svg class="ic ic-title"><use href="#i-chart-scatter"/></svg>Dispersão</h2><p class="sub" id="scatterSub"></p></div></header>
+            <div class="chartwrap" style="height:330px"><canvas id="chartScatter"></canvas></div>
+          </article>
+        </div>
+        <p class="note"><svg class="ic"><use href="#i-info"/></svg><span id="corrNote"></span></p>
+      </section>
+
+      <!-- ===== 9. METODOLOGIA ===== -->
+      <section class="page" id="page-metodo" role="tabpanel" aria-labelledby="tab-metodo" data-title="Metodologia">
+        <!-- @inline-partial:methodology.html -->
+      </section>
+
+    </main>
+    <footer class="site-foot">Fontes: Cadastro Único (MDS) · Novo CAGED (MTE) · IPVS 2022 (SEADE) · Malha municipal (IBGE) — <a href="#" data-goto="metodo">ver metodologia</a></footer>
+  </div>
+</div>
+
+<!-- Tooltip compartilhado do mapa -->
+<div class="map-tip" id="mapTip" role="tooltip" hidden></div>
+
+<!-- Diálogo de atalhos -->
+<dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle">
+  <header><h2 id="helpTitle"><svg class="ic"><use href="#i-keyboard"/></svg>Atalhos de teclado</h2>
+    <button class="icon-btn" type="button" data-action="close-help" aria-label="Fechar"><svg class="ic"><use href="#i-x"/></svg></button></header>
+  <dl class="shortcuts">
+    <div><dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Ir para a página correspondente</dd></div>
+    <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Página anterior / próxima (com o menu focado: <kbd>↑</kbd> <kbd>↓</kbd>)</dd></div>
+    <div><dt><kbd>M</kbd></dt><dd>Escolher município</dd></div>
+    <div><dt><kbd>A</kbd></dt><dd>Escolher ano</dd></div>
+    <div><dt><kbd>L</kbd></dt><dd>Limpar filtros</dd></div>
+    <div><dt><kbd>D</kbd></dt><dd>Alternar modo escuro</dd></div>
+    <div><dt><kbd>P</kbd></dt><dd>Imprimir / salvar PDF</dd></div>
+    <div><dt><kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd></dt><dd>Zoom do mapa (na página do mapa)</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>Mostrar esta ajuda</dd></div>
+  </dl>
+</dialog>
+
+<!-- @inline-js -->
+</body>
+</html>

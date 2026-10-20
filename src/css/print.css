@@ -1,0 +1,23 @@
+/* =====================================================================
+   IMPRESSÃO / PDF — todas as páginas, uma por folha, A4 paisagem.
+   O JS renderiza os gráficos de todas as abas no evento beforeprint.
+   ===================================================================== */
+@media print {
+  @page { size: A4 landscape; margin: 11mm; }
+  :root { --bg: #fff; }
+  body { background: #fff; font-size: 12px; }
+  .app { display: block; }
+  .sidebar, .filters, .skip-link, .map-zoom, .btn-link, .seg, .site-foot a, .dialog, .map-tip, .select-wrap { display: none !important; }
+  .topbar { position: static; padding: 0 0 10px; border: 0; background: none; backdrop-filter: none; }
+  .print-info { display: block; font-size: 12px; color: var(--ink-2); width: 100%; }
+  main { padding: 0; max-width: none; }
+  .page { display: flex !important; flex-direction: column; gap: 12px; animation: none !important; break-before: page; }
+  .page:first-of-type { break-before: auto; }
+  .page::before { content: attr(data-title); font-family: var(--font-serif); font-size: 18px; font-weight: 700; }
+  .panel, .kpi, .insight, .spark { break-inside: avoid; box-shadow: none !important; }
+  .kpi, .insight, .rank-bar i { animation: none !important; }
+  .chartwrap canvas { max-width: 100% !important; }
+  .method-toc { display: none; }
+  .method { display: block; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

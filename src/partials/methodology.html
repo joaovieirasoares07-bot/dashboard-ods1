@@ -1,0 +1,115 @@
+<!-- =====================================================================
+     Metodologia — conteúdo estático (os números do quadro "Em números"
+     são calculados dos dados em main.js > registerMethod).
+     ===================================================================== -->
+<div class="method">
+  <nav class="method-toc" aria-label="Seções da metodologia">
+    <a href="#m-objetivo">1. Objetivo</a>
+    <a href="#m-fontes">2. Origem dos dados</a>
+    <a href="#m-tratamento">3. Tratamento dos dados</a>
+    <a href="#m-indicadores">4. Indicadores e fórmulas</a>
+    <a href="#m-estatistica">5. Métodos estatísticos</a>
+    <a href="#m-periodo">6. Período analisado</a>
+    <a href="#m-limitacoes">7. Limitações</a>
+    <a href="#m-repro">8. Reprodutibilidade</a>
+  </nav>
+
+  <div class="method-body">
+    <article class="panel" id="m-objetivo">
+      <h2><svg class="ic ic-title"><use href="#i-lightbulb"/></svg>1. Objetivo</h2>
+      <p>Este painel acompanha indicadores relacionados ao <strong>Objetivo de Desenvolvimento Sustentável 1 — Erradicação da Pobreza</strong> em sete municípios paulistas: Barueri, Carapicuíba, Itapevi, Jandira, Osasco, Pirapora do Bom Jesus e Santana de Parnaíba. Ele combina três dimensões: a <em>vulnerabilidade social</em> das famílias registradas no Cadastro Único, o <em>mercado de trabalho formal</em> (Novo CAGED) e a <em>vulnerabilidade territorial</em> (IPVS 2022).</p>
+      <p>A pergunta central é descritiva: como evoluíram a pobreza registrada e o emprego formal entre 2021 e 2026, e quais municípios concentram as situações mais críticas. O painel não estima efeitos causais.</p>
+      <div class="fact-grid" id="methodFacts" style="margin-top:14px"></div>
+    </article>
+
+    <article class="panel" id="m-fontes">
+      <h2><svg class="ic ic-title"><use href="#i-book-open"/></svg>2. Origem dos dados</h2>
+      <div class="table-wrap"><table>
+        <caption class="sr-only">Fontes de dados utilizadas</caption>
+        <thead><tr><th scope="col">Fonte</th><th scope="col">Conteúdo usado</th><th scope="col">Unidade</th><th scope="col">Cobertura</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Cadastro Único (MDS)</th><td>Famílias por faixa de renda: pobreza, extrema pobreza, baixa renda e acima de 1/2 salário mínimo per capita</td><td>Município × mês</td><td>jan/2021 – ago/2026 (sem abr/2025)</td></tr>
+          <tr><th scope="row">Novo CAGED (MTE)</th><td>Estoque de vínculos formais, admissões, desligamentos e saldo</td><td>Município × mês (local do estabelecimento)</td><td>jan/2021 – jul/2026</td></tr>
+          <tr><th scope="row">IPVS 2022 (SEADE)</th><td>Domicílios particulares permanentes ocupados por grupo de vulnerabilidade (1 a 6)</td><td>Município (agregado dos setores censitários)</td><td>2022</td></tr>
+          <tr><th scope="row">Malha municipal (IBGE)</th><td>Limites dos municípios de SP, via repositório público <code>tbrugz/geodata-br</code></td><td>Polígonos</td><td>—</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:12px">As séries do CadÚnico e do CAGED vêm da planilha consolidada do projeto (<code>cadunico_caged_2021_2026.xlsx</code>); o IPVS vem da planilha da SEADE (aba <code>DPPO_ESP</code>). As tabelas do IBGE 2.1 (rendimento), 2.13 (Gini) e 2.18 (pobreza) foram avaliadas, mas não entram no painel porque trazem dados apenas para Brasil, unidades da federação e capitais — não para os sete municípios.</p>
+    </article>
+
+    <article class="panel" id="m-tratamento">
+      <h2><svg class="ic ic-title"><use href="#i-git-compare"/></svg>3. Tratamento dos dados</h2>
+      <ol>
+        <li><strong>Leitura e padronização.</strong> As abas são lidas com o cabeçalho na 3ª linha; datas são convertidas para o 1º dia do mês e cada município recebe seu código IBGE de 7 dígitos.</li>
+        <li><strong>Calendário comum.</strong> Todas as séries são alinhadas ao calendário jan/2021–ago/2026. Meses sem registro ficam <em>vazios</em> (não são preenchidos com zero nem interpolados): CadÚnico em abr/2025 e CAGED em ago/2026. Nos gráficos de linha, o trecho vazio é apenas ligado visualmente.</li>
+        <li><strong>Quebra metodológica do CadÚnico (mar/2023).</strong> Até fev/2023 a base separa "pobreza" e "extrema pobreza"; a partir de mar/2023 as duas faixas aparecem unificadas em "pobreza" e a extrema pobreza fica zerada. Para manter a série comparável:
+          <div class="formula">Pobreza (série reconciliada) = Pobreza + Extrema pobreza, para meses até fev/2023</div>
+          A extrema pobreza original é mantida separadamente e usada apenas até fev/2023.</li>
+        <li><strong>Reclassificação de jun/2023 (não corrigida).</strong> Há uma segunda descontinuidade entre as faixas "pobreza" e "acima de 1/2 SM" em jun/2023 (ver Limitações). Como não há informação para reconciliá-la, os valores foram mantidos como na fonte.</li>
+        <li><strong>IPVS.</strong> Para cada município são extraídas as contagens de domicílios dos 6 grupos (total de setores urbanos e rurais).</li>
+        <li><strong>Mapa.</strong> Os polígonos municipais são projetados uma única vez para coordenadas de tela (equirretangular com correção pela latitude média) e embutidos no arquivo — o mapa não depende de serviços externos.</li>
+        <li><strong>Conferência automática.</strong> O script de dados verifica que os totais de referência não mudaram (ex.: 300.517 famílias no CadÚnico e 796.286 vínculos formais no último mês) antes de gerar o arquivo final.</li>
+      </ol>
+    </article>
+
+    <article class="panel" id="m-indicadores">
+      <h2><svg class="ic ic-title"><use href="#i-sigma"/></svg>4. Indicadores e fórmulas</h2>
+      <div class="table-wrap"><table>
+        <caption class="sr-only">Definição dos indicadores</caption>
+        <thead><tr><th scope="col">Indicador</th><th scope="col">Definição</th><th scope="col">Tipo</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Famílias no CadÚnico</th><td>Pobreza (reconciliada) + baixa renda + acima de 1/2 SM</td><td>Estoque</td></tr>
+          <tr><th scope="row">% das famílias em pobreza</th><td>Famílias em pobreza ÷ famílias no CadÚnico × 100</td><td>Proporção</td></tr>
+          <tr><th scope="row">Estoque de empregos</th><td>Vínculos formais ativos no mês (CAGED)</td><td>Estoque</td></tr>
+          <tr><th scope="row">Saldo de empregos</th><td>Admissões − desligamentos</td><td>Fluxo</td></tr>
+          <tr><th scope="row">Taxa de rotatividade</th><td>(Admissões + desligamentos) ÷ (2 × estoque) × 100, média mensal no período</td><td>Taxa</td></tr>
+          <tr><th scope="row">Famílias em pobreza por 100 vínculos</th><td>Famílias em pobreza ÷ estoque de empregos × 100</td><td>Razão</td></tr>
+          <tr><th scope="row">% de domicílios vulneráveis</th><td>(Grupos 4 + 5 + 6 do IPVS) ÷ total de domicílios × 100</td><td>Proporção</td></tr>
+          <tr><th scope="row">Variação %</th><td>(valor final − valor inicial) ÷ |valor inicial| × 100</td><td>—</td></tr>
+          <tr><th scope="row">Índice base 100</th><td>valor no mês ÷ valor no 1º mês do período × 100</td><td>—</td></tr>
+        </tbody>
+      </table></div>
+      <p class="callout"><strong>Estoques não se somam no tempo.</strong> Famílias no CadÚnico e estoque de empregos são "fotografias" mensais: o painel usa o valor do último mês do período. Admissões, desligamentos e saldo são fluxos e podem ser somados entre meses.</p>
+    </article>
+
+    <article class="panel" id="m-estatistica">
+      <h2><svg class="ic ic-title"><use href="#i-chart-scatter"/></svg>5. Métodos estatísticos</h2>
+      <ul>
+        <li><strong>Estatística descritiva:</strong> média, mediana, desvio padrão amostral (divisor n − 1), coeficiente de variação, mínimo, máximo e quartis por interpolação linear (método 7 de Hyndman &amp; Fan, o mesmo do Excel <code>QUARTIL.INC</code>). Duas unidades de análise: os meses do período (série agregada) ou os 7 municípios no fim do período.</li>
+        <li><strong>Boxplot:</strong> caixa entre Q1 e Q3, traço na mediana, losango na média e bigodes até o mínimo e o máximo (sem exclusão de outliers, dado o n pequeno).</li>
+        <li><strong>Correlação de Pearson</strong> com pares completos, em painel município × mês. Duas versões: variação percentual mensal dentro de cada município (recomendada — remove o efeito do porte do município e da tendência comum) e níveis (sujeita a correlação espúria). Força classificada pelos limiares de Cohen (1988): |r| &lt; 0,3 fraca; 0,3–0,5 moderada; &gt; 0,5 forte.</li>
+        <li><strong>Tendência:</strong> regressão linear por mínimos quadrados sobre o tempo; a inclinação mensal × 12 dá a variação anual estimada, também expressa em % da média do período.</li>
+        <li><strong>Comparação com o período anterior (KPIs):</strong> estoques comparam o mesmo mês do ano anterior (t − 12); o saldo compara a mesma janela de meses um ano antes. Quando não há ano anterior, a comparação é com o 1º mês da série e isso é indicado no card.</li>
+        <li><strong>Cores de melhora/piora</strong> seguem a polaridade do indicador: menos pobreza ou mais emprego = verde; o contrário = vermelho.</li>
+        <li><strong>Insights automáticos</strong> são regras aplicadas aos mesmos cálculos do painel (ranking, variação, tendência e correlação). Trechos marcados como <em>hipótese</em> indicam explicações possíveis a investigar — não foram testados com os dados disponíveis.</li>
+      </ul>
+    </article>
+
+    <article class="panel" id="m-periodo">
+      <h2><svg class="ic ic-title"><use href="#i-calendar-range"/></svg>6. Período analisado</h2>
+      <p>A série completa vai de <strong>jan/2021 a ago/2026</strong> (CadÚnico) e de <strong>jan/2021 a jul/2026</strong> (CAGED). O IPVS é um retrato de 2022.</p>
+      <p>Com o filtro de ano, todos os cálculos passam a usar só os meses daquele ano: "mês mais recente" é o último mês do ano com dado, e as variações são medidas entre o primeiro e o último mês do ano. O filtro de município restringe os totais ao município escolhido; rankings e comparações continuam mostrando os 7, com o escolhido em destaque.</p>
+    </article>
+
+    <article class="panel" id="m-limitacoes">
+      <h2><svg class="ic ic-title"><use href="#i-triangle-alert"/></svg>7. Limitações</h2>
+      <ul>
+        <li><strong>Sem dados de população.</strong> Não é possível calcular taxas por habitante; números absolutos refletem também o porte de cada município.</li>
+        <li><strong>CadÚnico mede famílias cadastradas, não a incidência de pobreza.</strong> Variações podem refletir tanto mudanças de renda quanto de cobertura do cadastro (busca ativa, regras de programas sociais).</li>
+        <li><strong>Quebra de série em mar/2023.</strong> A reconciliação mantém a comparabilidade do total em pobreza, mas a extrema pobreza não pode ser acompanhada depois de fev/2023.</li>
+        <li><strong>Reclassificação em jun/2023.</strong> De mai para jun/2023, cerca de 33 mil famílias deixam a faixa "pobreza" e um número semelhante aparece em "acima de 1/2 SM", com o total do CadÚnico praticamente estável. O padrão indica mudança na classificação da base, cuja causa não é informada; os dados foram mantidos como publicados e o painel sinaliza o ponto nos insights.</li>
+        <li><strong>CAGED cobre só o emprego formal celetista</strong> e registra o vínculo no município do estabelecimento, não no de residência do trabalhador — polos de emprego (como Barueri) recebem trabalhadores de toda a região. Informalidade não é captada.</li>
+        <li><strong>IPVS agregado por município</strong> esconde as diferenças internas (a SEADE publica o índice por setor censitário) e é um retrato de um único ano.</li>
+        <li><strong>Amostra pequena entre municípios (n = 7)</strong>: estatísticas transversais são sensíveis a um único valor extremo. Correlações descrevem associação, não causalidade.</li>
+        <li><strong>Meses ausentes</strong> (CadÚnico abr/2025; CAGED ago/2026) não são imputados.</li>
+      </ul>
+    </article>
+
+    <article class="panel" id="m-repro">
+      <h2><svg class="ic ic-title"><use href="#i-keyboard"/></svg>8. Reprodutibilidade</h2>
+      <p>O código-fonte está organizado em <code>src/</code> (HTML, CSS e JavaScript separados e comentados), os dados brutos em <code>data/raw/</code> e os scripts em <code>scripts/</code>:</p>
+      <div class="formula">python3 scripts/build_data.py   # planilhas → data/dashboard-data.json (com conferência dos totais)<br>python3 scripts/build.py        # src/ + dados + Chart.js → index.html único (funciona offline)<br>node tests/regression.js        # teste automático de regressão</div>
+      <p>Bibliotecas: Chart.js 4.4.1 (MIT) e ícones Lucide (ISC), ambos embutidos. Tipografia: Lora e IBM Plex Sans (Google Fonts, com alternativas do sistema quando offline).</p>
+    </article>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+/* =====================================================================
+   TOKENS DE DESIGN
+   Identidade preservada: tijolo (#9C2B2B), ouro, sálvia, papel quente,
+   tipografia Lora (títulos) + IBM Plex Sans (texto).
+   Todas as cores passam por variáveis para suportar o modo escuro.
+   ===================================================================== */
+:root {
+  color-scheme: light;
+
+  /* Superfícies */
+  --bg: #F4F1EA;
+  --surface: #FFFFFF;
+  --surface-2: #FAF8F3;
+  --surface-3: #F1EDE4;
+  --line: #E6E0D4;
+  --line-strong: #D4CCBC;
+
+  /* Texto (contraste ≥ 4.5:1 sobre --surface) */
+  --ink: #1C2330;
+  --ink-2: #474F5E;
+  --ink-3: #636B78;
+  --on-brand: #FFFFFF;
+
+  /* Marca */
+  --brand: #9C2B2B;
+  --brand-strong: #7A2020;
+  --brand-soft: #F6E8E5;
+  --gold: #C98A1E;
+  --gold-text: #8F5F0E;
+  --sage: #3F7556;
+  --blue: #3F6593;
+
+  /* Semântica de KPIs */
+  --good: #2E7A4E;
+  --good-soft: #E5F2EA;
+  --bad: #B3362C;
+  --bad-soft: #FBE9E6;
+  --neutral: #636B78;
+  --neutral-soft: #EEF0F3;
+
+  /* Navegação lateral */
+  --side-bg: linear-gradient(180deg, #7E2222 0%, #5A1818 100%);
+  --side-ink: rgba(255, 255, 255, .78);
+  --side-ink-strong: #FFFFFF;
+  --side-hover: rgba(255, 255, 255, .08);
+  --side-active: rgba(255, 255, 255, .15);
+
+  /* Mapa */
+  --map-neigh: #E6E1D6;
+  --map-water: #F7F5EF;
+
+  /* Forma, sombra e movimento */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(28, 35, 48, .05), 0 1px 3px rgba(28, 35, 48, .06);
+  --shadow-md: 0 4px 14px -2px rgba(28, 35, 48, .10), 0 2px 4px rgba(28, 35, 48, .04);
+  --shadow-lg: 0 18px 40px -8px rgba(28, 35, 48, .22);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --dur: .22s;
+
+  /* Tipografia */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Espaçamento */
+  --gap: 18px;
+  --pad: 20px;
+}
+
+/* ---------- Modo escuro: preferência do sistema (sem escolha manual) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111317; --surface: #1A1D23; --surface-2: #20242B; --surface-3: #272C34;
+    --line: #2C3139; --line-strong: #3A404A;
+    --ink: #ECE8DF; --ink-2: #BCC2CC; --ink-3: #969DA8;
+    --brand: #E2766A; --brand-strong: #F08C80; --brand-soft: rgba(226, 118, 106, .14);
+    --gold: #E3B152; --gold-text: #E8BE6B; --sage: #6FB98A; --blue: #7FA6D6;
+    --good: #63C08B; --good-soft: rgba(99, 192, 139, .14);
+    --bad: #F08074; --bad-soft: rgba(240, 128, 116, .14);
+    --neutral: #A0A7B2; --neutral-soft: rgba(160, 167, 178, .12);
+    --side-bg: linear-gradient(180deg, #2A1314 0%, #180C0D 100%);
+    --map-neigh: #2A2F37; --map-water: #16191E;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+    --shadow-md: 0 6px 16px -4px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 18px 40px -8px rgba(0, 0, 0, .6);
+  }
+}
+/* ---------- Modo escuro: escolha manual (botão / tecla D) ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111317; --surface: #1A1D23; --surface-2: #20242B; --surface-3: #272C34;
+  --line: #2C3139; --line-strong: #3A404A;
+  --ink: #ECE8DF; --ink-2: #BCC2CC; --ink-3: #969DA8;
+  --brand: #E2766A; --brand-strong: #F08C80; --brand-soft: rgba(226, 118, 106, .14);
+  --gold: #E3B152; --gold-text: #E8BE6B; --sage: #6FB98A; --blue: #7FA6D6;
+  --good: #63C08B; --good-soft: rgba(99, 192, 139, .14);
+  --bad: #F08074; --bad-soft: rgba(240, 128, 116, .14);
+  --neutral: #A0A7B2; --neutral-soft: rgba(160, 167, 178, .12);
+  --side-bg: linear-gradient(180deg, #2A1314 0%, #180C0D 100%);
+  --map-neigh: #2A2F37; --map-water: #16191E;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+  --shadow-md: 0 6px 16px -4px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 18px 40px -8px rgba(0, 0, 0, .6);
+}
