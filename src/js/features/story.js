@@ -132,7 +132,8 @@ ODS.story = (() => {
     const p0 = D.agg('pob', P.cadFirst), p1 = D.agg('pob', P.cadLast), pk = peak('pob', P.idx, M);
     const e0 = D.agg('est', P.cgFirst), e1 = D.agg('est', P.cgLast);
     const rEst = D.rank('varEst', P);
-    const shareOsasco = D.agg('est', P.cgLast, ['Osasco']) / e1 * 100;
+    // maior empregador (calculado, não fixo)
+    const rEstAbs = D.rank('est', P), topEmp = rEstAbs[0], topShare = topEmp.v / e1 * 100;
     const c = monthlyCorr(P, M);
     // concentração absoluta: 2 municípios com mais famílias em pobreza
     const rAbs = D.rank('pob', P), share2 = (rAbs[0].v + rAbs[1].v) / p1 * 100;
@@ -150,7 +151,7 @@ ODS.story = (() => {
       { ic: 'briefcase', goto: 'trab', gotoLabel: 'Mercado de trabalho',
         title: 'O emprego formal cresceu, mas de forma desigual',
         big: fmtSigned(pct(e1, e0), '%'), bigLabel: `vínculos formais (${fmtMes(L[P.cgFirst])} → ${fmtMes(L[P.cgLast])})`,
-        text: `O estoque passou de ${fmt(e0)} para ${fmt(e1)} vínculos. O crescimento variou de ${fmtSigned(rEst[rEst.length - 1].v)} em ${rEst[rEst.length - 1].m} a ${fmtSigned(rEst[0].v)} em ${rEst[0].m}; Osasco concentra ${fmtPct(shareOsasco, 0)} dos empregos formais dos 7 municípios.` },
+        text: `O estoque passou de ${fmt(e0)} para ${fmt(e1)} vínculos. O crescimento variou de ${fmtSigned(rEst[rEst.length - 1].v)} em ${rEst[rEst.length - 1].m} a ${fmtSigned(rEst[0].v)} em ${rEst[0].m}; ${topEmp.m} concentra ${fmtPct(topShare, 0)} dos empregos formais dos 7 municípios.` },
       { ic: 'git-compare', goto: 'integ', gotoLabel: 'Análise integrada',
         title: 'Mais emprego não significou, sozinho, menos vulnerabilidade registrada',
         big: `r = ${u.fmt2(c.r)}`, bigLabel: `correlação mensal emprego × pobreza (n = ${c.n})`,

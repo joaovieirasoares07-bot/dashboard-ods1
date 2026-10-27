@@ -22,7 +22,7 @@ ODS.pages.stats = (() => {
         <td>${fv(r.unit, r.mean)}</td><td>${fv(r.unit, r.median)}</td><td>${isNum(r.std) ? fv(r.unit, r.std) : '—'}</td><td>${isNum(r.cv) ? fmtPct(r.cv) : '—'}</td>
         <td>${fv(r.unit, r.min)}</td><td>${fv(r.unit, r.q1)}</td><td>${fv(r.unit, r.q3)}</td><td>${fv(r.unit, r.max)}</td></tr>`
         : `<tr><th scope="row">${esc(r.label)}${r.note ? `<small>${esc(r.note)}</small>` : ''}</th><td class="n">0</td><td colspan="8" style="text-align:left;color:var(--ink-3)">Sem dados no período selecionado</td></tr>`).join('')}</tbody>`;
-    $('#statsNote').textContent = `n = número de ${unitTxt} com dado. Desvio padrão amostral (n − 1); quartis por interpolação linear (método 7, o mesmo do Excel QUARTIL.INC e do R). CV = coeficiente de variação (desvio padrão / média). ${mode === 'cross' ? 'Com apenas 7 municípios, as medidas de dispersão são sensíveis a um único valor extremo (Osasco concentra a maior parte dos empregos).' : ''}`;
+    $('#statsNote').textContent = `n = número de ${unitTxt} com dado. Desvio padrão amostral (n − 1); quartis por interpolação linear (método 7, o mesmo do Excel QUARTIL.INC e do R). CV = coeficiente de variação (desvio padrão / média). ${mode === 'cross' ? 'Com apenas 7 municípios, as medidas de dispersão são sensíveis a um único valor extremo (Barueri concentra quase metade dos empregos formais dos 7 municípios).' : ''}`;
   }
 
   function renderBox(P) {

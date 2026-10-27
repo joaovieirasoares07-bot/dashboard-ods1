@@ -11,7 +11,7 @@
      'diff'  — variações mensais (%) dentro de cada município: remove o
                efeito do tamanho do município e da tendência comum;
      'level' — níveis: tende a ser dominada pelo porte dos municípios
-               (Osasco é o maior em quase tudo) — use com cautela.
+               (Barueri e Osasco concentram o emprego; Osasco, as famílias) — use com cautela.
    ===================================================================== */
 ODS.stats = (() => {
   const u = ODS.util, D = ODS.data;
